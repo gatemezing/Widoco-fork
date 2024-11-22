@@ -438,8 +438,8 @@ http://www.oxygenxml.com/ns/doc/xsl ">
     </xsl:template>
 
     <xsl:template match="owl:ObjectProperty | owl:DatatypeProperty | owl:AnnotationProperty">
-        <div id="{generate-id()}" class="entity">
-            <xsl:call-template name="get.entity.name">
+        <div id="{generate-id()}" class="card">
+            <xsl:call-template name="get.era.entity.name">
                 <xsl:with-param name="toc"
                                 select="if (self::owl:ObjectProperty) then 'objectproperties' else if (self::owl:AnnotationProperty) then 'annotationproperties' else 'dataproperties'"
                                 tunnel="yes" as="xs:string"/>
@@ -1632,6 +1632,18 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                 <xsl:apply-templates select="owl:imports"/>
             </dl>
         </xsl:if>
+    </xsl:template>
+
+    <xsl:template name="get.era.entity.name">
+        <xsl:variable name="url" select="@*:about|@*:ID" as="xs:string"/>
+        <a name="{$url}"/>
+        <h2>
+            <xsl:value-of select="f:getLabel(@*:about|@*:ID)"/>
+            <xsl:call-template name="get.backlink"/>
+        </h2>
+        <h3>
+            <a href="{@*:about|@*:ID}"><xsl:value-of select="@*:about|@*:ID"/></a>
+        </h3>
     </xsl:template>
 
     <xsl:template name="get.entity.name">
