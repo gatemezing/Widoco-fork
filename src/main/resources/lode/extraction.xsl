@@ -1894,7 +1894,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.objectproperties">
         <xsl:if test="exists(//owl:ObjectProperty/element())">
-            <div id="objectproperties" class="card-container entity">
+            <div id="objectproperties" class="entity">
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('objectproperties')"/>
                 </h2>
