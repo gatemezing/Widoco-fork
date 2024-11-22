@@ -1806,7 +1806,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
     </xsl:template>
 
     <xsl:template name="get.namespacedeclarations">
-        <div id="namespacedeclarations">
+        <div id="namespacedeclarations" class="card-container">
             <h2>
                 <xsl:value-of select="f:getDescriptionLabel('namespaces')"/><xsl:text> </xsl:text>
                 <xsl:call-template name="get.backlink"/>
@@ -1839,7 +1839,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.classes">
         <xsl:if test="exists(/rdf:RDF/(owl:Class|rdfs:Class)/element())">
-            <div id="classes">
+            <div id="classes" class="card-container">
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('classes')"/>
                 </h2>
@@ -1867,7 +1867,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.namedindividuals">
         <xsl:if test="exists(//owl:NamedIndividual/element())">
-            <div id="namedindividuals">
+            <div id="namedindividuals" class="card-container">
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('namedindividuals')"/>
                 </h2>
@@ -1919,7 +1919,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.annotationproperties">
         <xsl:if test="exists(//owl:AnnotationProperty)">
-            <div id="annotationproperties">
+            <div id="annotationproperties" class="card-container">
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('annotationproperties')"/>
                 </h2>
@@ -1945,7 +1945,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.dataproperties">
         <xsl:if test="exists(//owl:DatatypeProperty/element())">
-            <div id="dataproperties">
+            <div id="dataproperties" class="card-container">
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('dataproperties')"/>
                 </h2>
