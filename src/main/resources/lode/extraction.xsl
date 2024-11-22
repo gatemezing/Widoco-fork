@@ -453,8 +453,8 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             <xsl:apply-templates select="dc:description[normalize-space() != ''] , dc:description[@*:resource]"/>
             <xsl:call-template name="get.entity.metadata"/>
             <xsl:call-template name="get.rationale"/>
-            <xsl:call-template name="get.example"/> 
-            <xsl:call-template name="get.property.description"/> -->
+            <xsl:call-template name="get.example"/> -->
+            <xsl:call-template name="get.property.description"/> 
 
             <xsl:call-template name="get.era.entity.general "/>
             <xsl:call-template name="get.era.entity.flags "/>
