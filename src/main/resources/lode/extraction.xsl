@@ -438,7 +438,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
     </xsl:template>
 
     <xsl:template match="owl:ObjectProperty | owl:DatatypeProperty | owl:AnnotationProperty">
-        <div id="{generate-id()}" class="card">
+        <div id="{generate-id()}" class="entity">
             <xsl:call-template name="get.entity.name">
                 <xsl:with-param name="toc"
                                 select="if (self::owl:ObjectProperty) then 'objectproperties' else if (self::owl:AnnotationProperty) then 'annotationproperties' else 'dataproperties'"
@@ -447,13 +447,22 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                                 select="if (self::owl:ObjectProperty) then f:getDescriptionLabel('objectpropertytoc') else if (self::owl:AnnotationProperty) then f:getDescriptionLabel('annotationpropertytoc') else f:getDescriptionLabel('datapropertytoc')"
                                 tunnel="yes" as="xs:string"/>
             </xsl:call-template>
+         <!--
             <xsl:call-template name="get.entity.url"/>
             <xsl:apply-templates select="rdfs:comment|prov:definition|skos:definition|obo:IAO_0000115"/>
             <xsl:apply-templates select="dc:description[normalize-space() != ''] , dc:description[@*:resource]"/>
             <xsl:call-template name="get.entity.metadata"/>
             <xsl:call-template name="get.rationale"/>
-            <!--<xsl:call-template name="get.example"/> -->
-            <xsl:call-template name="get.property.description"/>
+            <xsl:call-template name="get.example"/> 
+            <xsl:call-template name="get.property.description"/> -->
+
+            <xsl:call-template name="get.era.entity.general "/>
+            <xsl:call-template name="get.era.entity.flags "/>
+            <xsl:call-template name="get.era.entity.data.format"/>
+            <xsl:call-template name="get.era.entity.validation "/>
+            <xsl:call-template name="get.era.entity.ope.tsi.references "/>
+            <xsl:call-template name="get.era.entity.additional.info"/>
+            <xsl:call-template name="get.era.entity.source"/> 
             
         </div>
     </xsl:template>
@@ -1419,13 +1428,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             </div>
              <!-- calling custom ERA stuff -->
             <!--<xsl:call-template name="get.era.custom.annotations"/> -->
-            <xsl:call-template name="get.era.entity.general "/>
-            <xsl:call-template name="get.era.entity.flags "/>
-            <xsl:call-template name="get.era.entity.data.format"/>
-            <xsl:call-template name="get.era.entity.validation "/>
-            <xsl:call-template name="get.era.entity.ope.tsi.references "/>
-            <xsl:call-template name="get.era.entity.additional.info"/>
-            <xsl:call-template name="get.era.entity.source"/> 
+            
             
             
             
@@ -1791,7 +1794,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
     </xsl:template>
 
     <xsl:template name="get.namespacedeclarations">
-        <div id="namespacedeclarations" classs="card-container">
+        <div id="namespacedeclarations">
             <h2>
                 <xsl:value-of select="f:getDescriptionLabel('namespaces')"/><xsl:text> </xsl:text>
                 <xsl:call-template name="get.backlink"/>
@@ -1824,7 +1827,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.classes">
         <xsl:if test="exists(/rdf:RDF/(owl:Class|rdfs:Class)/element())">
-            <div id="classes" classs="card-container">
+            <div id="classes">
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('classes')"/>
                 </h2>
@@ -1852,7 +1855,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.namedindividuals">
         <xsl:if test="exists(//owl:NamedIndividual/element())">
-            <div id="namedindividuals" classs="card-container">
+            <div id="namedindividuals">
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('namedindividuals')"/>
                 </h2>
@@ -1878,7 +1881,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.objectproperties">
         <xsl:if test="exists(//owl:ObjectProperty/element())">
-            <div id="objectproperties" classs="card-container">
+            <div id="objectproperties" class="card-container">
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('objectproperties')"/>
                 </h2>
@@ -1904,7 +1907,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.annotationproperties">
         <xsl:if test="exists(//owl:AnnotationProperty)">
-            <div id="annotationproperties" classs="card-container">
+            <div id="annotationproperties">
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('annotationproperties')"/>
                 </h2>
@@ -1930,7 +1933,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.dataproperties">
         <xsl:if test="exists(//owl:DatatypeProperty/element())">
-            <div id="dataproperties" classs="card-container">
+            <div id="dataproperties">
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('dataproperties')"/>
                 </h2>
