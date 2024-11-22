@@ -1806,7 +1806,11 @@ http://www.oxygenxml.com/ns/doc/xsl ">
     </xsl:template>
 
     <xsl:template name="get.namespacedeclarations">
+<<<<<<< HEAD
         <div id="namespacedeclarations" class="card-container entity">
+=======
+        <div id="namespacedeclarations">
+>>>>>>> parent of 24ac24c (introduce class="card-container")
             <h2>
                 <xsl:value-of select="f:getDescriptionLabel('namespaces')"/><xsl:text> </xsl:text>
                 <xsl:call-template name="get.backlink"/>
@@ -1839,7 +1843,11 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.classes">
         <xsl:if test="exists(/rdf:RDF/(owl:Class|rdfs:Class)/element())">
+<<<<<<< HEAD
             <div id="classes" class="card-container entity">
+=======
+            <div id="classes">
+>>>>>>> parent of 24ac24c (introduce class="card-container")
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('classes')"/>
                 </h2>
@@ -1867,7 +1875,11 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.namedindividuals">
         <xsl:if test="exists(//owl:NamedIndividual/element())">
+<<<<<<< HEAD
             <div id="namedindividuals" class="card-container entity">
+=======
+            <div id="namedindividuals">
+>>>>>>> parent of 24ac24c (introduce class="card-container")
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('namedindividuals')"/>
                 </h2>
@@ -1919,7 +1931,11 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.annotationproperties">
         <xsl:if test="exists(//owl:AnnotationProperty)">
+<<<<<<< HEAD
             <div id="annotationproperties" class="card-container entity">
+=======
+            <div id="annotationproperties">
+>>>>>>> parent of 24ac24c (introduce class="card-container")
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('annotationproperties')"/>
                 </h2>
@@ -1945,7 +1961,11 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.dataproperties">
         <xsl:if test="exists(//owl:DatatypeProperty/element())">
+<<<<<<< HEAD
             <div id="dataproperties" class="card-container entity">
+=======
+            <div id="dataproperties">
+>>>>>>> parent of 24ac24c (introduce class="card-container")
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('dataproperties')"/>
                 </h2>
