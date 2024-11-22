@@ -101,4 +101,6 @@
     <notRepeatable>No</notRepeatable>
     <inSkosConceptScheme> Values from SKOS Concept Scheme </inSkosConceptScheme>
      <appendixD3Index> Appendix D3 Index </appendixD3Index>
+     <replacedBy> Is replaced by </replacedBy>
+     <replaces>replaces </replaces>
 </labels>

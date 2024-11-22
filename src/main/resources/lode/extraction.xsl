@@ -417,7 +417,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             <xsl:apply-templates select="dc:description[normalize-space() != ''] , dc:description[@*:resource]"/>
             <xsl:call-template name="get.entity.metadata"/>
             <xsl:call-template name="get.rationale"/>
-            <xsl:call-template name="get.example"/>
+           <!-- <xsl:call-template name="get.example"/> -->
             <xsl:call-template name="get.class.description"/>
         </div>
     </xsl:template>
@@ -438,7 +438,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
     </xsl:template>
 
     <xsl:template match="owl:ObjectProperty | owl:DatatypeProperty | owl:AnnotationProperty">
-        <div id="{generate-id()}" class="entity">
+        <div id="{generate-id()}" class="card">
             <xsl:call-template name="get.entity.name">
                 <xsl:with-param name="toc"
                                 select="if (self::owl:ObjectProperty) then 'objectproperties' else if (self::owl:AnnotationProperty) then 'annotationproperties' else 'dataproperties'"
@@ -452,7 +452,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             <xsl:apply-templates select="dc:description[normalize-space() != ''] , dc:description[@*:resource]"/>
             <xsl:call-template name="get.entity.metadata"/>
             <xsl:call-template name="get.rationale"/>
-            <xsl:call-template name="get.example"/>
+            <!--<xsl:call-template name="get.example"/> -->
             <xsl:call-template name="get.property.description"/>
             
         </div>
@@ -1027,13 +1027,15 @@ http://www.oxygenxml.com/ns/doc/xsl ">
     </xsl:template>
 
     <xsl:template name="get.entity.metadata">
-        <xsl:call-template name="get.skos.editorial.note"/>
+        <!--<xsl:call-template name="get.skos.editorial.note"/>-->
         <xsl:call-template name="get.version"/>
         <xsl:call-template name="get.author"/>
         <xsl:call-template name="get.original.source"/>
-        <xsl:call-template name="get.source"/>
+       <!---<xsl:call-template name="get.source"/> -->
         <xsl:call-template name="get.termStatus"/>
         <xsl:call-template name="get.deprecated"/>
+        <xsl:call-template name="get.isReplacedBy"/>
+        <xsl:call-template name="get.replaces"/>
         <xsl:call-template name="get.rule.antecedent"/>
         <xsl:call-template name="get.rule.consequent"/>
     </xsl:template>
@@ -1416,7 +1418,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                 </dl>
             </div>
              <!-- calling custom ERA stuff -->
-            <xsl:call-template name="get.era.custom.annotations"/>
+            <!--<xsl:call-template name="get.era.custom.annotations"/> -->
             <xsl:call-template name="get.era.entity.general "/>
             <xsl:call-template name="get.era.entity.flags "/>
             <xsl:call-template name="get.era.entity.data.format"/>
@@ -1789,7 +1791,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
     </xsl:template>
 
     <xsl:template name="get.namespacedeclarations">
-        <div id="namespacedeclarations">
+        <div id="namespacedeclarations" classs="card-container">
             <h2>
                 <xsl:value-of select="f:getDescriptionLabel('namespaces')"/><xsl:text> </xsl:text>
                 <xsl:call-template name="get.backlink"/>
@@ -1822,7 +1824,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.classes">
         <xsl:if test="exists(/rdf:RDF/(owl:Class|rdfs:Class)/element())">
-            <div id="classes">
+            <div id="classes" classs="card-container">
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('classes')"/>
                 </h2>
@@ -1850,7 +1852,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.namedindividuals">
         <xsl:if test="exists(//owl:NamedIndividual/element())">
-            <div id="namedindividuals">
+            <div id="namedindividuals" classs="card-container">
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('namedindividuals')"/>
                 </h2>
@@ -1876,7 +1878,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.objectproperties">
         <xsl:if test="exists(//owl:ObjectProperty/element())">
-            <div id="objectproperties">
+            <div id="objectproperties" classs="card-container">
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('objectproperties')"/>
                 </h2>
@@ -1902,7 +1904,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.annotationproperties">
         <xsl:if test="exists(//owl:AnnotationProperty)">
-            <div id="annotationproperties">
+            <div id="annotationproperties" classs="card-container">
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('annotationproperties')"/>
                 </h2>
@@ -1928,7 +1930,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.dataproperties">
         <xsl:if test="exists(//owl:DatatypeProperty/element())">
-            <div id="dataproperties">
+            <div id="dataproperties" classs="card-container">
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('dataproperties')"/>
                 </h2>
@@ -2301,6 +2303,63 @@ http://www.oxygenxml.com/ns/doc/xsl ">
         </xsl:if>
     </xsl:template>
 
+    <xsl:template name="get.isReplacedBy">
+        <xsl:if test="exists(dcterms:isReplacedBy)">
+            <dl>
+                <dt>
+                    <xsl:value-of select="f:getDescriptionLabel('replacedBy')"/>
+                </dt>
+                <dd>
+                    
+                    <xsl:for-each select="dcterms:isReplacedBy">
+                    <dd>
+                        <xsl:choose>
+                            <xsl:when test="normalize-space(@*:resource) = ''">
+                                <xsl:value-of select="text()"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <a href="{@*:resource}">
+                                    <xsl:value-of select="@*:resource"/>
+                                </a>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </dd>
+                </xsl:for-each>
+                </dd>
+            </dl>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template name="get.replaces">
+        <xsl:if test="exists(dcterms:replaces)">
+            <dl>
+                <dt>
+                    <xsl:value-of select="f:getDescriptionLabel('replaces')"/>
+                </dt>
+                <dd>
+                    
+                     <xsl:for-each select="dcterms:replaces">
+                    <dd>
+                        <xsl:choose>
+                            <xsl:when test="normalize-space(@*:resource) = ''">
+                                <xsl:value-of select="text()"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <a href="{@*:resource}">
+                                    <xsl:value-of select="@*:resource"/>
+                                </a>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </dd>
+                </xsl:for-each>
+                    
+                </dd>
+            </dl>
+        </xsl:if>
+    </xsl:template>
+
+    
+
     <!-- ADDED BY VARUN RATNAKAR FOR EXTRA PROPERTY ANNOTATIONS-->
     <!-- <xsl:template name="get.custom.annotations">
         <xsl:if test="exists(osw:category | osw:isRequired)">
@@ -2347,7 +2406,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
            
             <div class="section-title">Flags</div>                
             <xsl:if test="exists(rdf:type[@*:resource = 'http://www.w3.org/2002/07/owl#FunctionalProperty'])"><div class="field"><span>Functional property (Unique Value):</span> YES</div></xsl:if>
-            <xsl:if test="exists(era:isApplicable)"><div class="field"><span>Applicability Flags:</span> <xsl:value-of select="era:isApplicable"/></div></xsl:if>
+            <xsl:if test="exists(era:applicable)"><div class="field"><span>Applicability Flags:</span> <xsl:value-of select="era:applicable"/></div></xsl:if>
         </div>
     </xsl:template>
 
