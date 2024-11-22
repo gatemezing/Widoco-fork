@@ -456,6 +456,13 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             <xsl:call-template name="get.example"/> 
             <xsl:call-template name="get.property.description"/> -->
 
+            <xsl:call-template name="get.era.entity.general "/>
+            <xsl:call-template name="get.era.entity.flags "/>
+            <xsl:call-template name="get.era.entity.data.format"/>
+            <xsl:call-template name="get.era.entity.validation "/>
+            <xsl:call-template name="get.era.entity.ope.tsi.references "/>
+            <xsl:call-template name="get.era.entity.additional.info"/>
+            <xsl:call-template name="get.era.entity.source"/> 
             
             
         </div>
@@ -1422,13 +1429,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             </div>
              <!-- calling custom ERA stuff -->
             <!--<xsl:call-template name="get.era.custom.annotations"/> -->
-            <xsl:call-template name="get.era.entity.general "/>
-            <xsl:call-template name="get.era.entity.flags "/>
-            <xsl:call-template name="get.era.entity.data.format"/>
-            <xsl:call-template name="get.era.entity.validation "/>
-            <xsl:call-template name="get.era.entity.ope.tsi.references "/>
-            <xsl:call-template name="get.era.entity.additional.info"/>
-            <xsl:call-template name="get.era.entity.source"/> 
+            
             
             
             
