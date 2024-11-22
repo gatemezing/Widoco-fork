@@ -79,7 +79,6 @@
     <hascharacteristics>has characteristics</hascharacteristics>
 	<rationale>Term rationale</rationale>
 	<example>Example</example>
-	<propertyannotation>Property annotation</propertyannotation>
 	<category>Category</category>
 	<isrequired>Is required</isrequired>
 	<source>Source</source>
@@ -91,4 +90,15 @@
     <usedByRuleInAntecedent>used by rule (in antecedent)</usedByRuleInAntecedent>
     <usedByRuleInConsequent>used by rule (in consequent)</usedByRuleInConsequent>
     <externalproperty>external property</externalproperty>
+    <appendixD2Index>Used for Route Book </appendixD2Index>
+    <usedInRCCCalculations> Used in RCC Calculations </usedInRCCCalculations>
+    <shaclReference> SHACL rule </shaclReference>
+    <scopeNote>Explanations </scopeNote>
+    <eratvIndex>ERATV Index </eratvIndex>
+    <rinfIndex> RINF Index </rinfIndex>
+    <XMLName>XML Name </XMLName>
+    <propertyannotation>ERA Property Annotations</propertyannotation>
+    <notRepeatable>No</notRepeatable>
+    <inSkosConceptScheme> Values from SKOS Concept Scheme </inSkosConceptScheme>
+     <appendixD3Index> Appendix D3 Index </appendixD3Index>
 </labels>
