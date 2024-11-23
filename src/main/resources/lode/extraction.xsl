@@ -438,7 +438,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
     </xsl:template>
 
     <xsl:template match="owl:ObjectProperty | owl:DatatypeProperty | owl:AnnotationProperty">
-        <div id="{generate-id()}" class="card">
+        <div id="{generate-id()}" >
             <xsl:call-template name="get.era.entity.name">
                 <xsl:with-param name="toc"
                                 select="if (self::owl:ObjectProperty) then 'objectproperties' else if (self::owl:AnnotationProperty) then 'annotationproperties' else 'dataproperties'"
@@ -447,22 +447,22 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                                 select="if (self::owl:ObjectProperty) then f:getDescriptionLabel('objectpropertytoc') else if (self::owl:AnnotationProperty) then f:getDescriptionLabel('annotationpropertytoc') else f:getDescriptionLabel('datapropertytoc')"
                                 tunnel="yes" as="xs:string"/>
             </xsl:call-template>
-         <!--
-            <xsl:call-template name="get.entity.url"/>
+         
+           <!-- <xsl:call-template name="get.entity.url"/>
             <xsl:apply-templates select="rdfs:comment|prov:definition|skos:definition|obo:IAO_0000115"/>
             <xsl:apply-templates select="dc:description[normalize-space() != ''] , dc:description[@*:resource]"/>
             <xsl:call-template name="get.entity.metadata"/>
             <xsl:call-template name="get.rationale"/>
-            <xsl:call-template name="get.example"/> -->
-            <xsl:call-template name="get.property.description"/> 
-
+            <xsl:call-template name="get.example"/> 
+            <xsl:call-template name="get.property.description"/> -->
+       
             <xsl:call-template name="get.era.entity.general "/>
             <xsl:call-template name="get.era.entity.flags "/>
             <xsl:call-template name="get.era.entity.data.format"/>
             <xsl:call-template name="get.era.entity.validation "/>
             <xsl:call-template name="get.era.entity.ope.tsi.references "/>
             <xsl:call-template name="get.era.entity.additional.info"/>
-            <xsl:call-template name="get.era.entity.source"/> 
+            <xsl:call-template name="get.era.entity.source"/>  
             
             
         </div>
@@ -1894,7 +1894,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template name="get.objectproperties">
         <xsl:if test="exists(//owl:ObjectProperty/element())">
-            <div id="objectproperties" class="card-container">
+            <div id="objectproperties">
                 <h2>
                     <xsl:value-of select="f:getDescriptionLabel('objectproperties')"/>
                 </h2>
