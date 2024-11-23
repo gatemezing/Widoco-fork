@@ -2407,6 +2407,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
     
     <xsl:template name="get.era.entity.general">
         <!-- General Information Section -->
+        <xsl:if test="exists(era:rinfIndex| era:XMLName |  rdfs:comment | era:legalDeadline )">
         <div class="section">
             <div class="section-title">General Information</div>
             <xsl:if test="exists(era:rinfIndex)"><div class="field"><span>Number:</span> <xsl:value-of select="era:rinfIndex"/></div></xsl:if>
@@ -2414,20 +2415,24 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             <xsl:if test="exists(rdfs:comment)"><div class="field"><span>Definition:</span> <xsl:value-of select="rdfs:comment"/></div></xsl:if>
             <xsl:if test="exists(era:legalDeadline)"><div class="field"><span>Deadline:</span> <xsl:value-of select="era:legalDeadline"/></div></xsl:if>
         </div>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template name="get.era.entity.flags">				
         <!-- Flags Section -->
+        <xsl:if test="exists(era:applicable | rdf:type[@*:resource = 'http://www.w3.org/2002/07/owl#FunctionalProperty'] )">
         <div class="section">
-           
+         
             <div class="section-title">Flags</div>                
             <xsl:if test="exists(rdf:type[@*:resource = 'http://www.w3.org/2002/07/owl#FunctionalProperty'])"><div class="field"><span>Functional property (Unique Value):</span> YES</div></xsl:if>
             <xsl:if test="exists(era:applicable)"><div class="field"><span>Applicability Flags:</span> <xsl:value-of select="era:applicable"/></div></xsl:if>
         </div>
+      </xsl:if> 
     </xsl:template>
 
     <xsl:template name="get.era.entity.data.format">		
         <!-- Data Presentation Section -->
+        <xsl:if test="exists(era:inSkosConceptScheme | rdfs:range |  era:formatNote | era:unitOfMeasure )">
         <div class="section">
             <div class="section-title">Data Format</div> 
             <xsl:if test="exists(rdfs:range)"><div class="field"><span>Data Presentation:</span> <xsl:apply-templates select="rdfs:range"/></div></xsl:if> 
@@ -2469,13 +2474,15 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                 </div>
             </xsl:if> 
         </div>
+        </xsl:if>
     </xsl:template>
 
 
     <xsl:template name="get.era.entity.validation">
         <!-- Validation Section -->
+      <xsl:if test="exists(era:shaclReference | sh:message )">
         <div class="section">
-        <xsl:if test="exists(era:shaclReference | sh:message )">
+        
             <div class="section-title">Validation</div>
                 <div class="field"><span>Dependencies:</span>
                   <xsl:for-each select="era:dependencyNote ">
@@ -2521,12 +2528,14 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                         </xsl:choose>
                  </xsl:for-each>
                   </div>
-        </xsl:if>
+        
         </div>
+        </xsl:if>
     </xsl:template>
 
      <xsl:template name="get.era.entity.ope.tsi.references">
         <!-- OPE TSI References Section -->
+        <xsl:if test="exists(era:usedInRCCCalculations | era:appendixD1Index | era:appendixD2Index | era:appendixD3Index)">
         <div class="section">
             <div class="section-title">OPE TSI References</div>
             <xsl:if test="exists(era:usedInRCCCalculations)"><div class="field"><span>Part of RCC Algorithm:</span> <xsl:value-of select="era:usedInRCCCalculations"/></div></xsl:if>
@@ -2534,14 +2543,16 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             <xsl:if test="exists(era:appendixD2Index)"><div class="field"><span>Appendix D2 Index:</span> <xsl:value-of select="era:appendixD2Index"/></div></xsl:if>
             <xsl:if test="exists(era:appendixD3Index)"><div class="field"><span>Appendix D3 Index:</span> <xsl:value-of select="era:appendixD3Index"/></div></xsl:if>
         </div>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template name="get.era.entity.additional.info">
         <!-- Additional Information Section -->
+        <xsl:if test="exists(vann:example | skos:example)">
         <div class="section">
             <div class="section-title">Additional Information</div>
             <xsl:if test="exists(skos:scopeNote)"><div class="field"><span>General explanation:</span> <xsl:value-of select="skos:scopeNote"/></div></xsl:if>
-            <xsl:if test="exists(vann:example | skos:example)">
+            
                 <div class="field"><span>Examples:</span>
                     <xsl:for-each select="vann:example | skos:example">
                             <xsl:choose>
@@ -2558,15 +2569,17 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                             </xsl:choose>
                     </xsl:for-each>
                 </div>
-            </xsl:if>
+            
         </div>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template name="get.era.entity.source">
         <!-- References Section -->
+      <xsl:if test="exists(dcterms:source | rdfs:seeAlso )">
         <div class="section">
             <div class="section-title">References</div>            
-            <xsl:if test="exists(dcterms:source | rdfs:seeAlso )">
+            
                 <xsl:for-each select="dcterms:source  | rdfs:seeAlso">
                     <xsl:choose>
                         <xsl:when test="normalize-space(@*:resource) = ''">
@@ -2579,8 +2592,9 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:for-each>
-            </xsl:if>
+            
         </div>
+        </xsl:if>
     </xsl:template>
 
     <!-- custom annotations from ERA -->
