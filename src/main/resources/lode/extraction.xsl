@@ -2539,7 +2539,10 @@ http://www.oxygenxml.com/ns/doc/xsl ">
         <div class="section">
             <div class="section-title">OPE TSI References</div>
             <xsl:if test="exists(era:usedInRCCCalculations)"><div class="field"><span>Part of RCC Algorithm:</span> <xsl:value-of select="era:usedInRCCCalculations"/></div></xsl:if>
-            <xsl:if test="exists(era:appendixD1Index)"><div class="field"><span>Appendix D1 Index:</span> <xsl:value-of select="era:appendixD1Index"/></div></xsl:if>
+            <xsl:if test="exists(era:appendixD1Index)"><div class="field"><span>Appendix D1 Index:</span>
+             <xsl:value-of select="era:appendixD1Index"/>
+             </div>
+             </xsl:if>
             <xsl:if test="exists(era:appendixD2Index)"><div class="field"><span>Appendix D2 Index:</span> <xsl:value-of select="era:appendixD2Index"/></div></xsl:if>
             <xsl:if test="exists(era:appendixD3Index)"><div class="field"><span>Appendix D3 Index:</span> <xsl:value-of select="era:appendixD3Index"/></div></xsl:if>
         </div>
@@ -2579,8 +2582,9 @@ http://www.oxygenxml.com/ns/doc/xsl ">
       <xsl:if test="exists(dcterms:source | rdfs:seeAlso )">
         <div class="section">
             <div class="section-title">References</div>            
-            
+              
                 <xsl:for-each select="dcterms:source  | rdfs:seeAlso">
+                <dd>
                     <xsl:choose>
                         <xsl:when test="normalize-space(@*:resource) = ''">
                             <xsl:value-of select="text()"/>
@@ -2591,8 +2595,9 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                             </a>
                         </xsl:otherwise>
                     </xsl:choose>
+                  </dd>
                 </xsl:for-each>
-            
+              
         </div>
         </xsl:if>
     </xsl:template>
