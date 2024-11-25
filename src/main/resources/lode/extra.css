@@ -1,270 +1,287 @@
+/* General styling for the page */
+
 body {
-    text-align: justify;    
+
+    font-family: Arial, sans-serif;
+
+    margin: 20px;
+
+    background-color: #f7f7f7;
+
 }
 
-h1 {
-    line-height: 110%;
+ 
+
+/* Crossref container to behave like card-container */
+
+#crossref > div {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 20px;
+
+    justify-content: center;
+
 }
 
-.hlist {
-    border: 1px solid var(--border);
-    padding:5px;
-    background-color: var(--bg-hlist);
-}
+ 
 
-.hlist li {
-    display: inline;
-    display: inline-table;
-    list-style-type: none;
-    padding-right: 20px;
-    
-}
+/* Each entity styling */
 
 .entity {
-    border: 1px solid var(--border);
-    margin:5px 0px 5px 0px;
-    padding: 5px;    
+
+    background-color: #ffffff;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    padding: 20px;
+
+    margin-bottom: 20px;
+
+    flex: 1 1 100%; /* Full-width by default for mobile */
+
+    max-width: 800px;
+
 }
 
-.type-c {
-    cursor:help;
-    color:orange;
+ 
+
+/* Title styling for each entity */
+
+.entity h3 {
+
+    font-size: 22px;
+
+    color: #005A9C;
+
+    font-weight: bold;
+
+    margin-top: 0;
+
 }
 
-.type-op {
-    cursor:help;
-    color:var(--type-op);
+ 
+
+/* Backlink styling inside h3 */
+
+.entity h3 .backlink a {
+
+    font-size: 12px;
+
+    color: #0077B5;
+
+    text-decoration: none;
+
 }
 
-.type-dp {
-    cursor:help;
-    color:var(--type-dp);    
+ 
+
+.entity h3 .backlink a:hover {
+
+    text-decoration: underline;
+
 }
 
-.type-ep {
-    cursor:help;
-    color:mediumpurple;
+ 
+
+/* Styling for comments */
+
+.entity .comment p {
+
+    font-size: 14px;
+
+    color: #333;
+
+    margin-top: 10px;
+
+    margin-bottom: 15px;
+
 }
 
-.type-ep {
-    cursor:help;
-    color:mediumpurple;
+ 
+
+/* Styling for lists (dl, dt, dd) */
+
+.entity dl {
+
+    margin: 10px 0;
+
 }
 
-.type-ap {
-    cursor:help;
-    color:var(--type-ap);
+ 
+
+.entity dt {
+
+    font-weight: bold;
+
+    color: #005A9C;
+
+    margin-top: 10px;
+
 }
 
-.type-ni {
-    cursor:help;
-    color:var(--type-ni);
+ 
+
+.entity dd {
+
+    margin-left: 20px;
+
+    color: #333;
+
+    font-size: 14px;
+
 }
 
-.logic {
-    color:purple;
-    font-weight:bold;    
-}
+ 
 
-h3 {
-    margin-top: 3px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid var(--border);
-}
+/* Preformatted text styling */
 
-h2 {
-    margin-top:40px;    
-}
+.entity pre {
 
-.dotted {
-    border-bottom: 1px dotted gray;
-}
+    background-color: #f0f4f8;
 
-dt {
-    margin-top:5px;
-}
-
-.description {
-    border-top: 1px dashed gray;
-    border-bottom: 1px dashed gray;
-    background-color: var(--bg-description);
-    margin-top:5px;
-    padding-bottom:5px;
-}
-
-.description dl {
-    background-color: var(--bg-description);
-}
-
-.description ul {
-    padding-left: 12px;
-    margin-top: 0px;
-}
-
-.backlink {
-    font-size:10pt;
-    text-align:right;
-    float:right;
-    color:black;
-    padding: 2px;
-    border: 1px dotted navy;
-    background-color: var(--bg-backlink);
-    color: var(--text-backlink);
-}
-
-.imageblock {
-	text-align: center;
-}
-
-.imageblock img {
-	border:1px solid gray;
-}
-
-.endnote {
-	margin-top: 40px;
-	border-top: 1px solid gray;
-	padding-top: 10px;
-	text-align: center;
-	color:gray;
-	font-size:70%;
-}
-
-.literal {
-    color:var(--literal);
-    font-style:italic;
-}
-
-/* Styles added by Simon for clean table borders */
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th {
-    background-color: #f2f2f2;
-}
-
-th, td {
-    border: 2px solid #ddd;
-}
-
-th, td {
     padding: 10px;
-    text-align: left;
+
+    border-radius: 5px;
+
+    font-size: 13px;
+
+    overflow-x: auto;
+
 }
-ul.hlist li, dl.description dd > div{ display: block; padding: 5px; }
-ul.hlist, dl.description dd {columns: 5;text-align: left;}
 
+ 
 
-/*****************************************************/
+/* Description section */
 
-    /* Define color variables */
-    :root {
-        --primary-color: #005A9C;
-        --secondary-color: #0077B5;  /* For secondary elements, if needed */
-        --highlight-color: #4CAF50;  /* You can keep this as-is or adjust as needed */
-        --background-color: #f7f7f7;
-        --card-background-color: #ffffff;
-        --border-color: #ddd;
-        --text-color: #333;
-        --link-color: #1a73e8;
+.entity .description {
+
+    margin-top: 15px;
+
+    padding-top: 15px;
+
+    border-top: 2px solid #ddd;
+
+}
+
+ 
+
+/* Style for unordered lists (hlist) */
+
+.hlist {
+
+    list-style: none;
+
+    padding: 0;
+
+    margin: 0;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+
+    justify-content: center;
+
+}
+
+ 
+
+/* Style for each list item */
+
+.hlist li {
+
+    background-color: #ffffff;
+
+    border: 1px solid #ddd;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    padding: 15px;
+
+    width: 100%; /* Default to full-width */
+
+    max-width: 300px;
+
+    margin: 5px;
+
+    text-align: center;
+
+}
+
+ 
+
+/* Style for links inside list items */
+
+.hlist li a {
+
+    font-size: 16px;
+
+    color: #005A9C;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    display: block;
+
+}
+
+ 
+
+.hlist li a:hover {
+
+    text-decoration: underline;
+
+}
+
+ 
+
+/* Responsive adjustments */
+
+@media (min-width: 600px) {
+
+    .entity {
+
+        flex: 1 1 calc(50% - 20px); /* 2 entities per row for medium screens */
+
     }
 
-    /* General body styling */
-    body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-        background-color: var(--background-color);
+ 
+
+    .hlist li {
+
+        width: calc(50% - 20px); /* 2 items per row on medium screens */
+
     }
 
-    /* Container for all cards with responsive grid */
-    .card-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        justify-content: center;
+}
+
+ 
+
+@media (min-width: 992px) {
+
+    .entity {
+
+        flex: 1 1 calc(33.333% - 20px); /* 3 entities per row for large screens */
+
+        max-width: none;
+
     }
 
-    /* Each card styling */
-    .card {
-        background-color: var(--card-background-color);
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        flex: 1 1 100%; /* Full-width by default for mobile */
-        max-width: 800px;
+ 
+
+    .hlist li {
+
+        width: calc(33.333% - 20px); /* 3 items per row on large screens */
+
     }
 
-    /* Responsive adjustments */
-    @media (min-width: 600px) {
-        .card {
-            flex: 1 1 calc(50% - 20px); /* 2 cards per row for medium screens */
-        }
-    }
-
-    @media (min-width: 992px) {
-        .card {
-            flex: 1 1 calc(31.333% - 20px); /* 3 cards per row for large screens */
-            max-width: none;
-        }
-    }
-
-    /* Title and section styling */
-    .card h2 {
-        font-size: 25px;
-        font-weight: bold;
-        color: var(--primary-color);
-        background-color: var(--card-background-color);
-        margin-top: 0;
-    }
-
-    .card h3 {
-        color: var(--primary-color);
-        margin-bottom: 20px;
-        padding-bottom: 4px;
-    }
-
-    /* Section title */
-    .section-title {
-        font-weight: bold;
-        color: var(--primary-color);
-        margin-bottom: 10px;
-        border-bottom: 2px solid var(--primary-color);
-        padding-bottom: 5px;
-    }
-
-    .section {
-        margin-bottom: 15px;
-        padding: 15px;
-        background-color: #f0f4f8;
-        border-radius: 5px;
-    }
-
-    /* Field styling */
-    .field {
-        margin-bottom: 8px;
-    }
-
-    .field span {
-        font-weight: bold;
-        color: #555;
-    }
-
-    /* Highlighted field */
-    .field:has(span:contains("Deadline:")):has(:not(span):contains("12 months")) {
-        color: var(--primary-color);
-    }
-
-    /* Link styling */
-    .link a {
-        color: var(--link-color);
-        text-decoration: none;
-        font-size: 14px;
-    }
-
-    .link a:hover {
-        text-decoration: underline;
-		color: var(--secondary-color);
-    }
+}
