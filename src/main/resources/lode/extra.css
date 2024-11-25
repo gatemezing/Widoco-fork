@@ -30,7 +30,7 @@ body {
 
 /* Each entity styling */
 
-.entity {
+.entity, div#objectproperties>div, div#dataproperties>div, div#annotationproperties>div {
 
     background-color: #ffffff;
 
