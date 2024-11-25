@@ -2413,10 +2413,10 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             <dt>General Information</dt>
             <dd>
                 <dl>
-                    <xsl:if test="exists(era:rinfIndex)"><dt><span>Number: </span></dt><dl><xsl:value-of select="era:rinfIndex"/></dl></xsl:if>
-                    <xsl:if test="exists(era:XMLName)"><dt><span>XML Name: </span></dt><dl><xsl:value-of select="era:XMLName"/></dl></xsl:if>
-                    <xsl:if test="exists(rdfs:comment)"><dt><span>Definition: </span></dt><dl><xsl:value-of select="rdfs:comment"/></dl></xsl:if>
-                    <xsl:if test="exists(era:legalDeadline)"><dt><span>Deadline: </span></dt><dl><xsl:value-of select="era:legalDeadline"/></dl></xsl:if>
+                    <xsl:if test="exists(era:rinfIndex)"><dt><span>Number: </span></dt><dd><xsl:value-of select="era:rinfIndex"/></dd></xsl:if>
+                    <xsl:if test="exists(era:XMLName)"><dt><span>XML Name: </span></dt><dd><xsl:value-of select="era:XMLName"/></dd></xsl:if>
+                    <xsl:if test="exists(rdfs:comment)"><dt><span>Definition: </span></dt><dd><xsl:value-of select="rdfs:comment"/></dd></xsl:if>
+                    <xsl:if test="exists(era:legalDeadline)"><dt><span>Deadline: </span></dt><dd><xsl:value-of select="era:legalDeadline"/></dd></xsl:if>
                 </dl>
             </dd>
         </dl>
