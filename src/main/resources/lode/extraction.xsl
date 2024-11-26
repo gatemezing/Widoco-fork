@@ -438,7 +438,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
     </xsl:template>
 
     <xsl:template match="owl:ObjectProperty | owl:DatatypeProperty | owl:AnnotationProperty">
-        <div id="{generate-id()}" >
+        <div id="{generate-id()}" class="entity">
             <xsl:call-template name="get.era.entity.name">
                 <xsl:with-param name="toc"
                                 select="if (self::owl:ObjectProperty) then 'objectproperties' else if (self::owl:AnnotationProperty) then 'annotationproperties' else 'dataproperties'"
@@ -2605,12 +2605,11 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                         </a>
                     </xsl:otherwise>
                 </xsl:choose>
-            </dd>
+                </dd>
             </xsl:for-each>
-             
-            
+                
+            </xsl:if>
         </dl>
-        </xsl:if>
     </xsl:template>
 
     <!-- custom annotations from ERA -->
