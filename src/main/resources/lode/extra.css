@@ -20,7 +20,7 @@ body {
 
     flex-wrap: wrap;
 
-    gap: 20px;
+    column-gap: 20px;
 
     justify-content: center;
 
@@ -259,7 +259,7 @@ body {
 
 @media (min-width: 600px) {
 
-    .entity {
+    .entity, div#objectproperties>div, div#dataproperties>div, div#annotationproperties>div {
 
         flex: 1 1 calc(50% - 20px); /* 2 entities per row for medium screens */
 
@@ -279,9 +279,9 @@ body {
 
 @media (min-width: 992px) {
 
-    .entity {
+    .entity, div#objectproperties>div, div#dataproperties>div, div#annotationproperties>div {
 
-        flex: 1 1 calc(33.333% - 20px); /* 3 entities per row for large screens */
+        flex: 1 1 calc(31.333% - 20px); /* 3 entities per row for large screens */
 
         max-width: none;
 
@@ -291,7 +291,7 @@ body {
 
     .hlist li {
 
-        width: calc(33.333% - 20px); /* 3 items per row on large screens */
+        width: calc(31.333% - 20px); /* 3 items per row on large screens */
 
     }
 
