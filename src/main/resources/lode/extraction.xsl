@@ -2605,11 +2605,11 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                         </a>
                     </xsl:otherwise>
                 </xsl:choose>
-                </dd>
+             </dd>
             </xsl:for-each>
-                
-            </xsl:if>
+            
         </dl>
+     </xsl:if>
     </xsl:template>
 
     <!-- custom annotations from ERA -->
