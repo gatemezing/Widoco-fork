@@ -2488,7 +2488,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
 
     <xsl:template name="get.era.entity.validation">
-      <xsl:if test="exists(era:dependencyNote | era:shaclReference | sh:message )">
+      <xsl:if test="exists(era:dependencyNote | era:shaclShapeValidationRule | sh:message )">
         <!-- Validation Section -->
         <dl>
             <dt>Validation</dt>
@@ -2509,7 +2509,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                         </xsl:choose>
                     </xsl:for-each>
                     <dt><span>Validation Rules:</span></dt>
-                    <xsl:for-each select="era:shaclReference ">
+                    <xsl:for-each select="era:shaclShapeValidationRule ">
                         <xsl:choose>
                             <xsl:when test="normalize-space(@*:resource) = ''">
                                 <dd><xsl:value-of select="text()"/></dd>
@@ -2543,16 +2543,16 @@ http://www.oxygenxml.com/ns/doc/xsl ">
     </xsl:template>
 
      <xsl:template name="get.era.entity.ope.tsi.references">
-        <xsl:if test="exists(era:usedInRCCCalculations | era:appendixD1Index | era:appendixD2Index | era:appendixD3Index)">
+        <xsl:if test="exists(era:usedInRCCCalculations | era:tsiOPEAppendixD1Index | era:tsiOPEAppendixD2Index | era:tsiOPEAppendixD3Index)">
         <!-- OPE TSI References Section -->
         <dl>
             <dt>OPE TSI References</dt>
             <dd>
                 <dl>
                     <xsl:if test="exists(era:usedInRCCCalculations)"><dt><span>Part of RCC Algorithm: </span></dt><dd> <xsl:value-of select="era:usedInRCCCalculations"/></dd></xsl:if>
-                    <xsl:if test="exists(era:appendixD1Index)"><dt><span>Appendix D1 Index: </span></dt><dd> <xsl:value-of select="era:appendixD1Index"/></dd></xsl:if>
-                    <xsl:if test="exists(era:appendixD2Index)"><dt><span>Appendix D2 Index: </span></dt><dd> <xsl:value-of select="era:appendixD2Index"/></dd></xsl:if>
-                    <xsl:if test="exists(era:appendixD3Index)"><dt><span>Appendix D3 Index: </span></dt><dd> <xsl:value-of select="era:appendixD3Index"/></dd></xsl:if>
+                    <xsl:if test="exists(era:tsiOPEAppendixD1Index)"><dt><span>Appendix D1 Index: </span></dt><dd> <xsl:value-of select="era:tsiOPEAppendixD1Index"/></dd></xsl:if>
+                    <xsl:if test="exists(era:tsiOPEAppendixD2Index)"><dt><span>Appendix D2 Index: </span></dt><dd> <xsl:value-of select="era:tsiOPEAppendixD2Index"/></dd></xsl:if>
+                    <xsl:if test="exists(era:tsiOPEAppendixD3Index)"><dt><span>Appendix D3 Index: </span></dt><dd> <xsl:value-of select="era:tsiOPEAppendixD3Index"/></dd></xsl:if>
                 </dl>
             </dd>
         </dl>
@@ -2614,7 +2614,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <!-- custom annotations from ERA -->
     <xsl:template name="get.era.custom.annotations">
-        <xsl:if test="exists(era:rinfIndex | era:appendixD2Index | era:appendixD3Index | era:inSkosConceptScheme | era:XMLName | era:eratvIndex | era:usedInRCCCalculations )">
+        <xsl:if test="exists(era:rinfIndex | era:tsiOPEAppendixD2Index | era:tsiOPEAppendixD3Index | era:inSkosConceptScheme | era:XMLName | era:eratvIndex | era:usedInRCCCalculations )">
             <br/>
             <dt><xsl:value-of select="f:getDescriptionLabel('propertyannotation')"/>:
             </dt>
@@ -2642,20 +2642,20 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                   </xsl:for-each>
                   </xsl:if>
 
-                    <xsl:if test="exists(era:appendixD2Index)">
+                    <xsl:if test="exists(era:tsiOPEAppendixD2Index)">
                         <dt>
-                            <xsl:value-of select="f:getDescriptionLabel('appendixD2Index')"/>
+                            <xsl:value-of select="f:getDescriptionLabel('tsiOPEAppendixD2Index')"/>
                         </dt>
                         <dd>
-                            <xsl:value-of select="era:appendixD2Index"/>
+                            <xsl:value-of select="era:tsiOPEAppendixD2Index"/>
                         </dd>
                     </xsl:if>
-                     <xsl:if test="exists(era:appendixD3Index)">
+                     <xsl:if test="exists(era:tsiOPEAppendixD3Index)">
                         <dt>
-                            <xsl:value-of select="f:getDescriptionLabel('appendixD3Index')"/>
+                            <xsl:value-of select="f:getDescriptionLabel('tsiOPEAppendixD3Index')"/>
                         </dt>
                         <dd>
-                            <xsl:value-of select="era:appendixD3Index"/>
+                            <xsl:value-of select="era:tsiOPEAppendixD3Index"/>
                         </dd>
                     </xsl:if>
 

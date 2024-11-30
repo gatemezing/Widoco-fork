@@ -90,9 +90,10 @@
     <usedByRuleInAntecedent>used by rule (in antecedent)</usedByRuleInAntecedent>
     <usedByRuleInConsequent>used by rule (in consequent)</usedByRuleInConsequent>
     <externalproperty>external property</externalproperty>
-    <appendixD2Index>Used for Route Book </appendixD2Index>
+    <tsiOPEAppendixD2Index>Used for Route Book </tsiOPEAppendixD2Index>
+    <tsiOPEAppendixD1Index>RCC Index </tsiOPEAppendixD1Index>
     <usedInRCCCalculations> Used in RCC Calculations </usedInRCCCalculations>
-    <shaclReference> SHACL rule </shaclReference>
+    <shaclShapeValidationRule> SHACL rule </shaclShapeValidationRule>
     <scopeNote>Explanations </scopeNote>
     <eratvIndex>ERATV Index </eratvIndex>
     <rinfIndex> RINF Index </rinfIndex>
@@ -100,7 +101,7 @@
     <propertyannotation>ERA Property Annotations</propertyannotation>
     <notRepeatable>No</notRepeatable>
     <inSkosConceptScheme> Values from SKOS Concept Scheme </inSkosConceptScheme>
-     <appendixD3Index> Appendix D3 Index </appendixD3Index>
+     <tsiOPEAppendixD3Index> TSI OPE Appendix D3 Index </tsiOPEAppendixD3Index>
      <replacedBy> Is replaced by </replacedBy>
      <replaces>replaces </replaces>
 </labels>
