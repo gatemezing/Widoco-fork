@@ -1419,11 +1419,11 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                         </dt>
                         <dd>
                             <xsl:for-each select="$sub-properties">
-                                <xsl:if test="exists(era:rinfIndex)">
-                                    <xsl:sort select="era:rinfIndex" data-type="text" order="ascending"/>
-                                </xsl:if>
+                                
+                                 <xsl:sort select="era:rinfIndex" data-type="text" order="ascending"/>
+                                
 
-                                <xsl:param name="type" select="''" as="xs:string" tunnel="yes"/>
+                                <xsl:param name="type" select="''" as="xs:string" />
 
                                 <xsl:variable name="anchor" select="f:findEntityId(.,$type)" as="xs:string"/>
                                 <xsl:variable name="label" select="f:getLabel(.)" as="xs:string"/>
