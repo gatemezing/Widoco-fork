@@ -457,7 +457,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             <xsl:call-template name="get.property.description"/> -->
 
             <xsl:call-template name="get.era.subproperties.list "/>
-            
+
             <xsl:call-template name="get.era.entity.general "/>
             <xsl:call-template name="get.era.entity.flags "/>
             <xsl:call-template name="get.era.entity.data.format"/>
@@ -1403,6 +1403,31 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             </dd>
         </xsl:if>
     </xsl:template>
+    <sxl:template name="get.era.subproperty.item">
+        <xsl:param name="type" select="''" as="xs:string"/>
+
+        <xsl:variable name="anchor" select="f:findEntityId(.,$type)" as="xs:string"/>
+        <xsl:variable name="label" select="f:getLabel(.)" as="xs:string"/>
+        
+        <xsl:if test="exists(era:rinfIndex)">
+            <xsl:value-of select="era:rinfIndex"/><xsl:text> </xsl:text>
+        </xsl:if>
+        <xsl:choose>
+            <xsl:when test="$anchor = ''">
+                <a href="{.}" title="{.}" target="_blank">
+                    <xsl:value-of select="$label"/>
+                </a>
+            </xsl:when>
+            <xsl:otherwise>
+                <a href="#{$anchor}" title="{.}">
+                    <xsl:value-of select="$label"/>
+                </a>
+            </xsl:otherwise>
+        </xsl:choose>                                
+        <xsl:call-template name="get.entity.type.descriptor">
+            <xsl:with-param name="iri" select="." as="xs:string"/>
+        </xsl:call-template>
+    </xsl:template>
 
     <xsl:template name="get.era.subproperties.list">
         <xsl:if test="exists(f:hasSubproperties(.))">
@@ -1419,33 +1444,9 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                         </dt>
                         <dd>
                             <xsl:for-each select="$sub-properties">
-                                
-                                 <xsl:sort select="era:rinfIndex" data-type="text" order="ascending"/>
-                                
 
-                                <xsl:param name="type" select="''" as="xs:string" />
-
-                                <xsl:variable name="anchor" select="f:findEntityId(.,$type)" as="xs:string"/>
-                                <xsl:variable name="label" select="f:getLabel(.)" as="xs:string"/>
-                                
-                                <xsl:if test="exists(era:rinfIndex)">
-                                    <xsl:value-of select="era:rinfIndex"/><xsl:text> </xsl:text>
-                                </xsl:if>
-                                <xsl:choose>
-                                    <xsl:when test="$anchor = ''">
-                                        <a href="{.}" title="{.}" target="_blank">
-                                            <xsl:value-of select="$label"/>
-                                        </a>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <a href="#{$anchor}" title="{.}">
-                                            <xsl:value-of select="$label"/>
-                                        </a>
-                                    </xsl:otherwise>
-                                </xsl:choose>                                
-                                <xsl:call-template name="get.entity.type.descriptor">
-                                    <xsl:with-param name="iri" select="." as="xs:string"/>
-                                </xsl:call-template>
+                                <xsl:sort select="era:rinfIndex" data-type="text" order="ascending"/>
+                                <xsl:call-template name="get.era.subproperty.item"/>
                                 <!-- <xsl:apply-templates select="."/> -->
                                 <xsl:if test="position() != last()">
                                     <xsl:text>, </xsl:text> <br />
