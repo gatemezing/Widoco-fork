@@ -455,7 +455,9 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             <xsl:call-template name="get.rationale"/>
             <xsl:call-template name="get.example"/> 
             <xsl:call-template name="get.property.description"/> -->
-       
+
+            <xsl:call-template name="get.era.subproperties.list "/>
+            
             <xsl:call-template name="get.era.entity.general "/>
             <xsl:call-template name="get.era.entity.flags "/>
             <xsl:call-template name="get.era.entity.data.format"/>
@@ -1402,6 +1404,60 @@ http://www.oxygenxml.com/ns/doc/xsl ">
         </xsl:if>
     </xsl:template>
 
+    <xsl:template name="get.era.subproperties.list">
+        <xsl:if test="exists(f:hasSubproperties(.))">
+            <div class="description">
+                <dl>
+                    <xsl:variable name="type" select="if (self::owl:AnnotationProperty) then 'annotation' else 'property'"
+                                as="xs:string"/>
+                    <xsl:variable name="about" select="(@*:about|@*:ID)" as="xs:string"/>
+                    <xsl:variable name="sub-properties" as="attribute()*"
+                                select="/rdf:RDF/(if ($type = 'property') then owl:DatatypeProperty | owl:ObjectProperty | rdf:Property else owl:AnnotationProperty)[some $res in rdfs:subPropertyOf/(@*:resource|(owl:Class|rdfs:Class)/@*:about) satisfies $res = $about]/(@*:about|@*:ID)"/>
+                    <xsl:if test="exists($sub-properties)">
+                        <dt>
+                            <xsl:value-of select="f:getDescriptionLabel('hassubproperties')"/>
+                        </dt>
+                        <dd>
+                            <xsl:for-each select="$sub-properties">
+                                <xsl:if test="exists(era:rinfIndex)">
+                                    <xsl:sort select="era:rinfIndex" data-type="text" order="ascending"/>
+                                </xsl:if>
+
+                                <xsl:param name="type" select="''" as="xs:string" tunnel="yes"/>
+
+                                <xsl:variable name="anchor" select="f:findEntityId(.,$type)" as="xs:string"/>
+                                <xsl:variable name="label" select="f:getLabel(.)" as="xs:string"/>
+                                
+                                <xsl:if test="exists(era:rinfIndex)">
+                                    <xsl:value-of select="era:rinfIndex"/><xsl:text> </xsl:text>
+                                </xsl:if>
+                                <xsl:choose>
+                                    <xsl:when test="$anchor = ''">
+                                        <a href="{.}" title="{.}" target="_blank">
+                                            <xsl:value-of select="$label"/>
+                                        </a>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <a href="#{$anchor}" title="{.}">
+                                            <xsl:value-of select="$label"/>
+                                        </a>
+                                    </xsl:otherwise>
+                                </xsl:choose>                                
+                                <xsl:call-template name="get.entity.type.descriptor">
+                                    <xsl:with-param name="iri" select="." as="xs:string"/>
+                                </xsl:call-template>
+                                <!-- <xsl:apply-templates select="."/> -->
+                                <xsl:if test="position() != last()">
+                                    <xsl:text>, </xsl:text> <br />
+                                </xsl:if>
+                            </xsl:for-each>
+                        </dd>
+                    </xsl:if>
+                </dl>
+            </div>
+        </xsl:if>
+    </xsl:template>
+
     <xsl:template name="get.property.description">
         <xsl:if test="exists(rdfs:subPropertyOf | (rdfs:domain|schema:domainIncludes) | (rdfs:range|schema:rangeIncludes) | owl:propertyChainAxiom) or f:hasSubproperties(.) or f:hasInverseOf(.) or f:hasDisjoints(.) or f:hasEquivalent(.) or f:hasSameAs(.) or f:hasPunning(.)">
             <div class="description">
@@ -1642,9 +1698,9 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             <xsl:value-of select="f:getLabel(@*:about|@*:ID)"/>
             <xsl:call-template name="get.backlink"/>
         </h2>
-        <h3>
+        <p>
             <a href="{@*:about|@*:ID}"><xsl:value-of select="@*:about|@*:ID"/></a>
-        </h3>
+        </p>
     </xsl:template>
 
     <xsl:template name="get.entity.name">
@@ -2408,14 +2464,13 @@ http://www.oxygenxml.com/ns/doc/xsl ">
     <xsl:template name="get.era.entity.general">
         <xsl:if test="exists(era:rinfIndex | era:XMLName | rdfs:comment | era:legalDeadline)">
         <!-- General Information Section -->
-        <p><xsl:value-of select="rdfs:comment"/></p>
+        <xsl:if test="exists(rdfs:comment)"><p><xsl:value-of select="rdfs:comment"/></p></xsl:if>
         <dl>
             <dt>General Information</dt>
             <dd>
                 <dl>
                     <xsl:if test="exists(era:rinfIndex)"><dt><span>Number: </span></dt><dd><xsl:value-of select="era:rinfIndex"/></dd></xsl:if>
                     <xsl:if test="exists(era:XMLName)"><dt><span>XML Name: </span></dt><dd><xsl:value-of select="era:XMLName"/></dd></xsl:if>
-                    <xsl:if test="exists(rdfs:comment)"><dt><span>Definition: </span></dt><dd><xsl:value-of select="rdfs:comment"/></dd></xsl:if>
                     <xsl:if test="exists(era:legalDeadline)"><dt><span>Deadline: </span></dt><dd><xsl:value-of select="era:legalDeadline"/></dd></xsl:if>
                 </dl>
             </dd>
