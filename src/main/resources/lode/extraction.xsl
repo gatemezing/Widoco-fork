@@ -1403,7 +1403,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             </dd>
         </xsl:if>
     </xsl:template>
-    <sxl:template name="get.era.subproperty.item">
+    <xsl:template name="get.era.subproperty.item">
         <xsl:param name="type" select="''" as="xs:string"/>
 
         <xsl:variable name="anchor" select="f:findEntityId(.,$type)" as="xs:string"/>
