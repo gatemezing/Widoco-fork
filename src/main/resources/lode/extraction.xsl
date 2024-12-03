@@ -456,9 +456,8 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             <xsl:call-template name="get.example"/> 
             <xsl:call-template name="get.property.description"/> -->
 
-            <xsl:call-template name="get.era.subproperties.list "/>
-
             <xsl:call-template name="get.era.entity.general "/>
+            <xsl:call-template name="get.era.subproperties.list "/>
             <xsl:call-template name="get.era.entity.flags "/>
             <xsl:call-template name="get.era.entity.data.format"/>
             <xsl:call-template name="get.era.entity.validation "/>
@@ -1412,6 +1411,9 @@ http://www.oxygenxml.com/ns/doc/xsl ">
         <xsl:if test="exists(era:rinfIndex)">
             <xsl:value-of select="era:rinfIndex"/><xsl:text> </xsl:text>
         </xsl:if>
+        <xsl:if test="exists(rinfIndex)">
+            <span><xsl:value-of select="rinfIndex"/><xsl:text> - </xsl:text></span>
+        </xsl:if>
         <xsl:choose>
             <xsl:when test="$anchor = ''">
                 <a href="{.}" title="{.}" target="_blank">
@@ -1426,7 +1428,10 @@ http://www.oxygenxml.com/ns/doc/xsl ">
         </xsl:choose>                                
         <xsl:call-template name="get.entity.type.descriptor">
             <xsl:with-param name="iri" select="." as="xs:string"/>
-        </xsl:call-template>
+        </xsl:call-template>        
+        <xsl:if test="exists(f:hasSubproperties(.))">
+            <xsl:call-template name="get.era.subproperty.item"/>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template name="get.era.subproperties.list">
@@ -1439,18 +1444,10 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                     <xsl:variable name="sub-properties" as="attribute()*"
                                 select="/rdf:RDF/(if ($type = 'property') then owl:DatatypeProperty | owl:ObjectProperty | rdf:Property else owl:AnnotationProperty)[some $res in rdfs:subPropertyOf/(@*:resource|(owl:Class|rdfs:Class)/@*:about) satisfies $res = $about]/(@*:about|@*:ID)"/>
                     <xsl:if test="exists($sub-properties)">
-                        <dt>
-                            <xsl:value-of select="f:getDescriptionLabel('hassubproperties')"/>
-                        </dt>
                         <dd>
                             <xsl:for-each select="$sub-properties">
-
                                 <xsl:sort select="era:rinfIndex" data-type="text" order="ascending"/>
                                 <xsl:call-template name="get.era.subproperty.item"/>
-                                <!-- <xsl:apply-templates select="."/> -->
-                                <xsl:if test="position() != last()">
-                                    <xsl:text>, </xsl:text> <br />
-                                </xsl:if>
                             </xsl:for-each>
                         </dd>
                     </xsl:if>
