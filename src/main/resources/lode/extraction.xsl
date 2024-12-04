@@ -1428,10 +1428,15 @@ http://www.oxygenxml.com/ns/doc/xsl ">
         </xsl:choose>                                
         <xsl:call-template name="get.entity.type.descriptor">
             <xsl:with-param name="iri" select="." as="xs:string"/>
+<<<<<<< HEAD
         </xsl:call-template>        
         <xsl:if test="exists(f:hasSubproperties(.))">
             <xsl:call-template name="get.era.subproperties.list"/>
         </xsl:if>
+=======
+        </xsl:call-template>
+        <xsl:call-template name="get.era.subproperties.list"/>
+>>>>>>> b5913715b2b7b8ceb1f4ca6d5de648f90da99341
     </xsl:template>
 
     <xsl:template name="get.era.subproperties.list">
@@ -2462,7 +2467,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
     <xsl:template name="get.era.entity.general">
         <xsl:if test="exists(era:rinfIndex | era:XMLName | rdfs:comment | era:legalDeadline)">
         <!-- General Information Section -->
-        <xsl:if test="exists(rdfs:comment)"><p><xsl:value-of select="rdfs:comment"/></p></xsl:if>
+        <xsl:if test="exists(rdfs:comment)"><p><xsl:value-of select="rdfs:comment" disable-output-escaping="yes"/></p></xsl:if>
         <dl>
             <dt>General Information</dt>
             <dd>
@@ -2619,18 +2624,18 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             <dt>Additional Information</dt>
             <dd>
                 <dl>
-                    <xsl:if test="exists(skos:scopeNote)"><dt><span>General explanation:</span></dt><dd> <xsl:value-of select="skos:scopeNote"/></dd></xsl:if>
+                    <xsl:if test="exists(skos:scopeNote)"><dt><span>General explanation:</span></dt><dd> <xsl:value-of select="skos:scopeNote" disable-output-escaping="yes"/></dd></xsl:if>
                     <dt><span>Examples:</span></dt>
                     <xsl:for-each select="vann:example | skos:example">
                             <xsl:choose>
                                 <xsl:when test="normalize-space(@*:resource) = ''">
                                     <code>
-                                        <xsl:value-of select="text()"/>
+                                        <xsl:value-of select="text()" disable-output-escaping="yes"/>
                                     </code>
                                 </xsl:when>
                                 <xsl:otherwise>
                                     <a href="{@*:resource}">
-                                        <xsl:value-of select="@*:resource"/>
+                                        <xsl:value-of select="@*:resource" disable-output-escaping="yes"/>
                                     </a>
                                 </xsl:otherwise>
                             </xsl:choose>
