@@ -1,0 +1,298 @@
+/* General styling for the page */
+
+body {
+
+    font-family: Arial, sans-serif;
+
+    margin: 20px;
+
+    background-color: #f7f7f7;
+
+}
+
+ 
+
+/* Crossref container to behave like card-container */
+
+#crossref > div {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    column-gap: 20px;
+
+    justify-content: center;
+
+}
+
+ 
+
+/* Each entity styling */
+
+.entity, div#objectproperties>div, div#dataproperties>div, div#annotationproperties>div {
+
+    background-color: #ffffff;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    padding: 20px;
+
+    margin-bottom: 20px;
+
+    flex: 1 1 100%; /* Full-width by default for mobile */
+
+    max-width: 800px;
+
+}
+
+ 
+
+/* Title styling for each entity */
+
+.entity h3 {
+
+    font-size: 22px;
+
+    color: #005A9C;
+
+    font-weight: bold;
+
+    margin-top: 0;
+
+}
+
+ 
+
+/* Backlink styling inside h3 */
+
+.entity h3 .backlink a {
+
+    font-size: 12px;
+
+    color: #0077B5;
+
+    text-decoration: none;
+
+}
+
+ 
+
+.entity h3 .backlink a:hover {
+
+    text-decoration: underline;
+
+}
+
+
+
+.backlink {
+    font-size:10pt;
+    text-align:right;
+    float:right;
+    color:black;
+    padding: 2px;
+    border: 1px dotted navy;
+    background-color: var(--bg-backlink);
+    color: var(--text-backlink);
+} 
+
+/* Styling for comments */
+
+.entity .comment p {
+
+    font-size: 14px;
+
+    color: #333;
+
+    margin-top: 10px;
+
+    margin-bottom: 15px;
+
+}
+
+ 
+
+/* Styling for lists (dl, dt, dd) */
+
+.entity dl {
+
+    margin: 10px 0;
+
+}
+
+ 
+
+.entity dt {
+
+    font-weight: bold;
+
+    color: #005A9C;
+
+    margin-top: 10px;
+
+}
+
+ 
+
+.entity dd {
+
+    margin-left: 20px;
+
+    color: #333;
+
+    font-size: 14px;
+
+}
+
+ 
+
+/* Preformatted text styling */
+
+.entity pre {
+
+    background-color: #f0f4f8;
+
+    padding: 10px;
+
+    border-radius: 5px;
+
+    font-size: 13px;
+
+    overflow-x: auto;
+
+}
+
+ 
+
+/* Description section */
+
+.entity .description {
+
+    margin-top: 15px;
+
+    padding-top: 15px;
+
+    border-top: 2px solid #ddd;
+
+}
+
+ 
+
+/* Style for unordered lists (hlist) */
+
+.hlist {
+
+    list-style: none;
+
+    padding: 0;
+
+    margin: 0;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+
+    justify-content: center;
+
+}
+
+ 
+
+/* Style for each list item */
+
+.hlist li {
+
+    background-color: #ffffff;
+
+    border: 1px solid #ddd;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    padding: 15px;
+
+    width: 100%; /* Default to full-width */
+
+    max-width: 300px;
+
+    margin: 5px;
+
+    text-align: center;
+
+}
+
+ 
+
+/* Style for links inside list items */
+
+.hlist li a {
+
+    font-size: 16px;
+
+    color: #005A9C;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    display: block;
+
+}
+
+ 
+
+.hlist li a:hover {
+
+    text-decoration: underline;
+
+}
+
+ 
+
+/* Responsive adjustments */
+
+@media (min-width: 600px) {
+
+    .entity, div#objectproperties>div, div#dataproperties>div, div#annotationproperties>div {
+
+        flex: 1 1 calc(50% - 20px); /* 2 entities per row for medium screens */
+
+    }
+
+ 
+
+    .hlist li {
+
+        width: calc(50% - 20px); /* 2 items per row on medium screens */
+
+    }
+
+}
+
+ 
+
+@media (min-width: 992px) {
+
+    .entity, div#objectproperties>div, div#dataproperties>div, div#annotationproperties>div {
+
+        flex: 1 1 calc(31.333% - 20px); /* 3 entities per row for large screens */
+
+        max-width: none;
+
+    }
+
+ 
+
+    .hlist li {
+
+        width: calc(31.333% - 20px); /* 3 items per row on large screens */
+
+    }
+
+}

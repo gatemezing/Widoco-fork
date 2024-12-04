@@ -1429,9 +1429,9 @@ http://www.oxygenxml.com/ns/doc/xsl ">
         <xsl:call-template name="get.entity.type.descriptor">
             <xsl:with-param name="iri" select="." as="xs:string"/>
         </xsl:call-template>        
-        <xsl:if test="exists(f:hasSubproperties(.))">
-            <xsl:call-template name="get.era.subproperties.list"/>
-        </xsl:if>
+        
+            <xsl:call-template name="get.era.subproperty.item"/>
+        
     </xsl:template>
 
     <xsl:template name="get.era.subproperties.list">

@@ -417,7 +417,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             <xsl:apply-templates select="dc:description[normalize-space() != ''] , dc:description[@*:resource]"/>
             <xsl:call-template name="get.entity.metadata"/>
             <xsl:call-template name="get.rationale"/>
-           <!-- <xsl:call-template name="get.example"/> -->
+            <xsl:call-template name="get.example"/>
             <xsl:call-template name="get.class.description"/>
         </div>
     </xsl:template>
@@ -439,7 +439,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
     <xsl:template match="owl:ObjectProperty | owl:DatatypeProperty | owl:AnnotationProperty">
         <div id="{generate-id()}" class="entity">
-            <xsl:call-template name="get.era.entity.name">
+            <xsl:call-template name="get.entity.name">
                 <xsl:with-param name="toc"
                                 select="if (self::owl:ObjectProperty) then 'objectproperties' else if (self::owl:AnnotationProperty) then 'annotationproperties' else 'dataproperties'"
                                 tunnel="yes" as="xs:string"/>
@@ -447,25 +447,14 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                                 select="if (self::owl:ObjectProperty) then f:getDescriptionLabel('objectpropertytoc') else if (self::owl:AnnotationProperty) then f:getDescriptionLabel('annotationpropertytoc') else f:getDescriptionLabel('datapropertytoc')"
                                 tunnel="yes" as="xs:string"/>
             </xsl:call-template>
-         
-           <!-- <xsl:call-template name="get.entity.url"/>
+            <xsl:call-template name="get.entity.url"/>
             <xsl:apply-templates select="rdfs:comment|prov:definition|skos:definition|obo:IAO_0000115"/>
             <xsl:apply-templates select="dc:description[normalize-space() != ''] , dc:description[@*:resource]"/>
             <xsl:call-template name="get.entity.metadata"/>
             <xsl:call-template name="get.rationale"/>
-            <xsl:call-template name="get.example"/> 
-            <xsl:call-template name="get.property.description"/> -->
-
-            <xsl:call-template name="get.era.entity.general "/>
-            <xsl:call-template name="get.era.subproperties.list "/>
-            <xsl:call-template name="get.era.entity.flags "/>
-            <xsl:call-template name="get.era.entity.data.format"/>
-            <xsl:call-template name="get.era.entity.validation "/>
-            <xsl:call-template name="get.era.entity.ope.tsi.references "/>
-            <xsl:call-template name="get.era.entity.additional.info"/>
-            <xsl:call-template name="get.era.entity.source"/>  
-            
-            
+            <xsl:call-template name="get.example"/>
+            <xsl:call-template name="get.property.description"/>
+            <xsl:call-template name="get.era.entity.general"/>
         </div>
     </xsl:template>
 
@@ -1038,15 +1027,13 @@ http://www.oxygenxml.com/ns/doc/xsl ">
     </xsl:template>
 
     <xsl:template name="get.entity.metadata">
-        <!--<xsl:call-template name="get.skos.editorial.note"/>-->
+        <xsl:call-template name="get.skos.editorial.note"/>
         <xsl:call-template name="get.version"/>
         <xsl:call-template name="get.author"/>
         <xsl:call-template name="get.original.source"/>
-       <!---<xsl:call-template name="get.source"/> -->
+        <xsl:call-template name="get.source"/>
         <xsl:call-template name="get.termStatus"/>
         <xsl:call-template name="get.deprecated"/>
-        <xsl:call-template name="get.isReplacedBy"/>
-        <xsl:call-template name="get.replaces"/>
         <xsl:call-template name="get.rule.antecedent"/>
         <xsl:call-template name="get.rule.consequent"/>
     </xsl:template>
@@ -1402,59 +1389,6 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             </dd>
         </xsl:if>
     </xsl:template>
-    <xsl:template name="get.era.subproperty.item">
-        <xsl:param name="type" select="''" as="xs:string"/>
-
-        <xsl:variable name="anchor" select="f:findEntityId(.,$type)" as="xs:string"/>
-        <xsl:variable name="label" select="f:getLabel(.)" as="xs:string"/>
-        
-        <xsl:if test="exists(era:rinfIndex)">
-            <xsl:value-of select="era:rinfIndex"/><xsl:text> </xsl:text>
-        </xsl:if>
-        <xsl:if test="exists(rinfIndex)">
-            <span><xsl:value-of select="rinfIndex"/><xsl:text> - </xsl:text></span>
-        </xsl:if>
-        <xsl:choose>
-            <xsl:when test="$anchor = ''">
-                <a href="{.}" title="{.}" target="_blank">
-                    <xsl:value-of select="$label"/>
-                </a>
-            </xsl:when>
-            <xsl:otherwise>
-                <a href="#{$anchor}" title="{.}">
-                    <xsl:value-of select="$label"/>
-                </a>
-            </xsl:otherwise>
-        </xsl:choose>                                
-        <xsl:call-template name="get.entity.type.descriptor">
-            <xsl:with-param name="iri" select="." as="xs:string"/>
-        </xsl:call-template>        
-        <xsl:if test="exists(f:hasSubproperties(.))">
-            <xsl:call-template name="get.era.subproperties.list"/>
-        </xsl:if>
-    </xsl:template>
-
-    <xsl:template name="get.era.subproperties.list">
-        <xsl:if test="exists(f:hasSubproperties(.))">
-            <div class="description">
-                <dl>
-                    <xsl:variable name="type" select="if (self::owl:AnnotationProperty) then 'annotation' else 'property'"
-                                as="xs:string"/>
-                    <xsl:variable name="about" select="(@*:about|@*:ID)" as="xs:string"/>
-                    <xsl:variable name="sub-properties" as="attribute()*"
-                                select="/rdf:RDF/(if ($type = 'property') then owl:DatatypeProperty | owl:ObjectProperty | rdf:Property else owl:AnnotationProperty)[some $res in rdfs:subPropertyOf/(@*:resource|(owl:Class|rdfs:Class)/@*:about) satisfies $res = $about]/(@*:about|@*:ID)"/>
-                    <xsl:if test="exists($sub-properties)">
-                        <dd>
-                            <xsl:for-each select="$sub-properties">
-                                <xsl:sort select="era:rinfIndex" data-type="text" order="ascending"/>
-                                <xsl:call-template name="get.era.subproperty.item"/>
-                            </xsl:for-each>
-                        </dd>
-                    </xsl:if>
-                </dl>
-            </div>
-        </xsl:if>
-    </xsl:template>
 
     <xsl:template name="get.property.description">
         <xsl:if test="exists(rdfs:subPropertyOf | (rdfs:domain|schema:domainIncludes) | (rdfs:range|schema:rangeIncludes) | owl:propertyChainAxiom) or f:hasSubproperties(.) or f:hasInverseOf(.) or f:hasDisjoints(.) or f:hasEquivalent(.) or f:hasSameAs(.) or f:hasPunning(.)">
@@ -1482,14 +1416,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                 </dl>
             </div>
              <!-- calling custom ERA stuff -->
-            <xsl:call-template name="get.era.custom.annotations"/> 
-            
-            
-            
-            
-
-            
-            
+            <xsl:call-template name="get.era.custom.annotations"/>
              
         </xsl:if>
     </xsl:template>
@@ -1687,18 +1614,6 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                 <xsl:apply-templates select="owl:imports"/>
             </dl>
         </xsl:if>
-    </xsl:template>
-
-    <xsl:template name="get.era.entity.name">
-        <xsl:variable name="url" select="@*:about|@*:ID" as="xs:string"/>
-        <a name="{$url}"/>
-        <h2>
-            <xsl:value-of select="f:getLabel(@*:about|@*:ID)"/>
-            <xsl:call-template name="get.backlink"/>
-        </h2>
-        <p>
-            <a href="{@*:about|@*:ID}"><xsl:value-of select="@*:about|@*:ID"/></a>
-        </p>
     </xsl:template>
 
     <xsl:template name="get.entity.name">
@@ -2373,63 +2288,6 @@ http://www.oxygenxml.com/ns/doc/xsl ">
         </xsl:if>
     </xsl:template>
 
-    <xsl:template name="get.isReplacedBy">
-        <xsl:if test="exists(dcterms:isReplacedBy)">
-            <dl>
-                <dt>
-                    <xsl:value-of select="f:getDescriptionLabel('replacedBy')"/>
-                </dt>
-                <dd>
-                    
-                    <xsl:for-each select="dcterms:isReplacedBy">
-                    <dd>
-                        <xsl:choose>
-                            <xsl:when test="normalize-space(@*:resource) = ''">
-                                <xsl:value-of select="text()"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <a href="{@*:resource}">
-                                    <xsl:value-of select="@*:resource"/>
-                                </a>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </dd>
-                </xsl:for-each>
-                </dd>
-            </dl>
-        </xsl:if>
-    </xsl:template>
-
-    <xsl:template name="get.replaces">
-        <xsl:if test="exists(dcterms:replaces)">
-            <dl>
-                <dt>
-                    <xsl:value-of select="f:getDescriptionLabel('replaces')"/>
-                </dt>
-                <dd>
-                    
-                     <xsl:for-each select="dcterms:replaces">
-                    <dd>
-                        <xsl:choose>
-                            <xsl:when test="normalize-space(@*:resource) = ''">
-                                <xsl:value-of select="text()"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <a href="{@*:resource}">
-                                    <xsl:value-of select="@*:resource"/>
-                                </a>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </dd>
-                </xsl:for-each>
-                    
-                </dd>
-            </dl>
-        </xsl:if>
-    </xsl:template>
-
-    
-
     <!-- ADDED BY VARUN RATNAKAR FOR EXTRA PROPERTY ANNOTATIONS-->
     <!-- <xsl:template name="get.custom.annotations">
         <xsl:if test="exists(osw:category | osw:isRequired)">
@@ -2460,214 +2318,19 @@ http://www.oxygenxml.com/ns/doc/xsl ">
     <!-- ADAPTED BY GHISLAIN ATEMEZING, DRAGOS PATRU ..FROM original idea of VARUN RATNAKAR FOR EXTRA PROPERTY ANNOTATIONS-->
     
     <xsl:template name="get.era.entity.general">
-        <xsl:if test="exists(era:rinfIndex | era:XMLName | rdfs:comment | era:legalDeadline)">
         <!-- General Information Section -->
-        <xsl:if test="exists(rdfs:comment)"><p><xsl:value-of select="rdfs:comment"/></p></xsl:if>
-        <dl>
-            <dt>General Information</dt>
-            <dd>
-                <dl>
-                    <xsl:if test="exists(era:rinfIndex)"><dt><span>Number: </span></dt><dd><xsl:value-of select="era:rinfIndex"/></dd></xsl:if>
-                    <xsl:if test="exists(era:XMLName)"><dt><span>XML Name: </span></dt><dd><xsl:value-of select="era:XMLName"/></dd></xsl:if>
-                    <xsl:if test="exists(era:legalDeadline)"><dt><span>Deadline: </span></dt><dd><xsl:value-of select="era:legalDeadline"/></dd></xsl:if>
-                </dl>
-            </dd>
-        </dl>
-        </xsl:if>
+        <div class="section">
+            <div class="section-title">General Information</div>
+            <xsl:if test="exists(era:rinfIndex)"><div class="field"><span>Number:</span> <xsl:value-of select="era:rinfIndex"/></div></xsl:if>
+            <xsl:if test="exists(era:XMLName)"><div class="field"><span>XML Name:</span> <xsl:value-of select="era:XMLName"/></div></xsl:if>
+            <xsl:if test="exists(rdfs:comment)"><div class="field"><span>Definition:</span> <xsl:value-of select="rdfs:comment"/></div></xsl:if>
+            <xsl:if test="exists(era:legalDeadline)"><div class="field"><span>Deadline:</span> <xsl:value-of select="era:legalDeadline"/></div></xsl:if>
+        </div>
     </xsl:template>
 
-    <xsl:template name="get.era.entity.flags">				
-        <xsl:if test="exists(era:applicable | rdf:type[@*:resource = 'http://www.w3.org/2002/07/owl#FunctionalProperty'] )">
-        <!-- Flags Section -->
-        <dl>
-            <dt>Flags</dt>
-            <dd>
-             <dl>
-                <xsl:if test="exists(rdf:type[@*:resource = 'http://www.w3.org/2002/07/owl#FunctionalProperty'])"><dt><span>Functional property (Unique Value):</span></dt><dd><xsl:value-of select="f:getDescriptionLabel('functional')"/></dd></xsl:if>
-                <xsl:if test="exists(era:applicable)"><dt><span>Applicability Flags: </span></dt><dd><xsl:value-of select="era:applicable"/></dd></xsl:if>
-             </dl>
-            </dd>
-        </dl>
-      </xsl:if> 
-    </xsl:template>
-
-    <xsl:template name="get.era.entity.data.format">		
-        <xsl:if test="exists(era:inSkosConceptScheme | rdfs:range |  era:formatNote | era:unitOfMeasure )">
-        <!-- Data Presentation Section -->
-        <dl>
-            <dt>Data Format</dt>
-            <dd>
-                <dl>
-                    <xsl:if test="exists(rdfs:range)"><dt><span>Data Presentation:</span></dt><dd><xsl:apply-templates select="rdfs:range"/></dd></xsl:if> 
-                    <xsl:if test="exists(era:formatNote)"><dt><span>Format:</span></dt><dd><xsl:value-of select="era:formatNote"/></dd></xsl:if>
-                    <xsl:if test="exists(era:inSkosConceptScheme )">
-                        <dt><span>Taxonomy Reference: </span></dt>
-                        <xsl:for-each select="era:inSkosConceptScheme">
-                            <xsl:choose>
-                                <xsl:when test="normalize-space(@*:resource) = ''">
-                                    <dd><xsl:value-of select="text()"/></dd>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <dd><a href="{@*:resource}">
-                                        <xsl:value-of select="@*:resource"/>
-                                    </a>
-                                    <br /></dd>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </xsl:for-each>
-                    </xsl:if>
-                    <!--<xsl:if test="exists(era:unitOfMeasure)"><div class="field"><span>Unit of Measure:</span> <xsl:value-of select="era:unitOfMeasure"/></div></xsl:if>-->
-                    <xsl:if test="exists(era:unitOfMeasure )">
-                        <dt><span>Unit of Measure: </span></dt>
-                        <xsl:for-each select="era:unitOfMeasure">
-                            <xsl:choose>
-                                <xsl:when test="normalize-space(@*:resource) = ''">
-                                    <dd><xsl:value-of select="text()"/></dd>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <dd><a href="{@*:resource}">
-                                        <xsl:value-of select="@*:resource"/>
-                                    </a>
-                                    <br /></dd>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </xsl:for-each>
-                    </xsl:if> 
-                </dl>
-            </dd>
-        </dl>
-        </xsl:if>
-    </xsl:template>
-
-
-    <xsl:template name="get.era.entity.validation">
-      <xsl:if test="exists(era:dependencyNote | era:shaclShapeValidationRule | sh:message )">
-        <!-- Validation Section -->
-        <dl>
-            <dt>Validation</dt>
-            <dd>
-                <dl>
-                    <dt><span>Dependencies:</span></dt>
-                    <xsl:for-each select="era:dependencyNote ">
-                        <xsl:choose>
-                            <xsl:when test="normalize-space(@*:resource) = ''">
-                                    <dd><xsl:value-of select="text()"/></dd>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <dd><a href="{@*:resource}">
-                                        <xsl:value-of select="@*:resource"/>
-                                    </a>
-                                    <br /></dd>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </xsl:for-each>
-                    <dt><span>Validation Rules:</span></dt>
-                    <xsl:for-each select="era:shaclShapeValidationRule ">
-                        <xsl:choose>
-                            <xsl:when test="normalize-space(@*:resource) = ''">
-                                <dd><xsl:value-of select="text()"/></dd>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <dd><a href="{@*:resource}">
-                                    <xsl:value-of select="@*:resource"/>
-                                </a>
-                                <br /></dd>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </xsl:for-each>
-                    <dt><span>Validation Messages:</span></dt> 
-                    <xsl:for-each select="sh:message ">
-                        <xsl:choose>
-                            <xsl:when test="normalize-space(@*:resource) = ''">
-                                <dd><xsl:value-of select="text()"/></dd>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <dd><a href="{@*:resource}">
-                                    <xsl:value-of select="@*:resource"/>
-                                </a>
-                                <br /></dd>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </xsl:for-each>
-                </dl>
-            </dd>
-        </dl>
-        </xsl:if>
-    </xsl:template>
-
-     <xsl:template name="get.era.entity.ope.tsi.references">
-        <xsl:if test="exists(era:usedInRCCCalculations | era:tsiOPEAppendixD1Index | era:tsiOPEAppendixD2Index | era:tsiOPEAppendixD3Index)">
-        <!-- OPE TSI References Section -->
-        <dl>
-            <dt>OPE TSI References</dt>
-            <dd>
-                <dl>
-                    <xsl:if test="exists(era:usedInRCCCalculations)"><dt><span>Part of RCC Algorithm: </span></dt><dd> <xsl:value-of select="era:usedInRCCCalculations"/></dd></xsl:if>
-                    <xsl:if test="exists(era:tsiOPEAppendixD1Index)"><dt><span>Appendix D1 Index: </span></dt><dd> <xsl:value-of select="era:tsiOPEAppendixD1Index"/></dd></xsl:if>
-                    <xsl:if test="exists(era:tsiOPEAppendixD2Index)"><dt><span>Appendix D2 Index: </span></dt><dd> <xsl:value-of select="era:tsiOPEAppendixD2Index"/></dd></xsl:if>
-                    <xsl:if test="exists(era:tsiOPEAppendixD3Index)"><dt><span>Appendix D3 Index: </span></dt><dd> <xsl:value-of select="era:tsiOPEAppendixD3Index"/></dd></xsl:if>
-                </dl>
-            </dd>
-        </dl>
-        </xsl:if>
-    </xsl:template>
-
-    <xsl:template name="get.era.entity.additional.info">
-        <xsl:if test="exists(vann:example | skos:example)">
-        <!-- Additional Information Section -->
-        <dl>
-            <dt>Additional Information</dt>
-            <dd>
-                <dl>
-                    <xsl:if test="exists(skos:scopeNote)"><dt><span>General explanation:</span></dt><dd> <xsl:value-of select="skos:scopeNote"/></dd></xsl:if>
-                    <dt><span>Examples:</span></dt>
-                    <xsl:for-each select="vann:example | skos:example">
-                            <xsl:choose>
-                                <xsl:when test="normalize-space(@*:resource) = ''">
-                                    <code>
-                                        <xsl:value-of select="text()"/>
-                                    </code>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <a href="{@*:resource}">
-                                        <xsl:value-of select="@*:resource"/>
-                                    </a>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                    </xsl:for-each>
-                </dl>
-            </dd>
-        </dl>
-        </xsl:if>
-    </xsl:template>
-
-    <xsl:template name="get.era.entity.source">
-      <xsl:if test="exists(dcterms:source | rdfs:seeAlso )">
-        <!-- References Section -->
-        <dl>
-            <dt>References</dt>
-            <xsl:for-each select="dcterms:source  | rdfs:seeAlso">
-            <dd>
-                <xsl:choose>
-                    <xsl:when test="normalize-space(@*:resource) = ''">
-                        <xsl:value-of select="text()"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <a href="{@*:resource}">
-                            <xsl:value-of select="@*:resource"/>
-                        </a>
-                    </xsl:otherwise>
-                </xsl:choose>
-             </dd>
-            </xsl:for-each>
-            
-        </dl>
-     </xsl:if>
-    </xsl:template>
-
-    <!-- custom annotations from ERA -->
+    
     <xsl:template name="get.era.custom.annotations">
-        <xsl:if test="exists(era:rinfIndex | era:tsiOPEAppendixD2Index | era:tsiOPEAppendixD3Index | era:inSkosConceptScheme | era:XMLName | era:eratvIndex | era:usedInRCCCalculations )">
+        <xsl:if test="exists(era:rinfIndex | era:appendixD2Index | era:appendixD3Index | era:inSkosConceptScheme | era:XMLName | era:eratvIndex | era:usedInRCCCalculations)">
             <br/>
             <dt><xsl:value-of select="f:getDescriptionLabel('propertyannotation')"/>:
             </dt>
@@ -2695,20 +2358,20 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                   </xsl:for-each>
                   </xsl:if>
 
-                    <xsl:if test="exists(era:tsiOPEAppendixD2Index)">
+                    <xsl:if test="exists(era:appendixD2Index)">
                         <dt>
-                            <xsl:value-of select="f:getDescriptionLabel('tsiOPEAppendixD2Index')"/>
+                            <xsl:value-of select="f:getDescriptionLabel('appendixD2Index')"/>
                         </dt>
                         <dd>
-                            <xsl:value-of select="era:tsiOPEAppendixD2Index"/>
+                            <xsl:value-of select="era:appendixD2Index"/>
                         </dd>
                     </xsl:if>
-                     <xsl:if test="exists(era:tsiOPEAppendixD3Index)">
+                     <xsl:if test="exists(era:appendixD3Index)">
                         <dt>
-                            <xsl:value-of select="f:getDescriptionLabel('tsiOPEAppendixD3Index')"/>
+                            <xsl:value-of select="f:getDescriptionLabel('appendixD3Index')"/>
                         </dt>
                         <dd>
-                            <xsl:value-of select="era:tsiOPEAppendixD3Index"/>
+                            <xsl:value-of select="era:appendixD3Index"/>
                         </dd>
                     </xsl:if>
 
@@ -2757,7 +2420,6 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                             </xsl:otherwise>
                         </xsl:choose>
                        </dd>
-
                      </xsl:for-each>
 
                     </xsl:if>
