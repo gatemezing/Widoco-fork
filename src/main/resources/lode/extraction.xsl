@@ -1407,31 +1407,32 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
         <xsl:variable name="anchor" select="f:findEntityId(.,$type)" as="xs:string"/>
         <xsl:variable name="label" select="f:getLabel(.)" as="xs:string"/>
-        
-        <xsl:if test="exists(era:rinfIndex)">
-            <xsl:value-of select="era:rinfIndex"/><xsl:text> </xsl:text>
-        </xsl:if>
-        <xsl:if test="exists(rinfIndex)">
-            <span><xsl:value-of select="rinfIndex"/><xsl:text> - </xsl:text></span>
-        </xsl:if>
-        <xsl:choose>
-            <xsl:when test="$anchor = ''">
-                <a href="{.}" title="{.}" target="_blank">
-                    <xsl:value-of select="$label"/>
-                </a>
-            </xsl:when>
-            <xsl:otherwise>
-                <a href="#{$anchor}" title="{.}">
-                    <xsl:value-of select="$label"/>
-                </a>
-            </xsl:otherwise>
-        </xsl:choose>                                
-        <xsl:call-template name="get.entity.type.descriptor">
-            <xsl:with-param name="iri" select="." as="xs:string"/>
-        </xsl:call-template>
-        <xsl:if test="exists(/rdf:RDF/*[rdfs:subPropertyOf/@rdf:resource = current()/@rdf:about])">
-            <xsl:call-template name="get.era.subproperties.list"/>
-        </xsl:if>
+        <li>
+            <xsl:if test="exists(era:rinfIndex)">
+                <xsl:value-of select="era:rinfIndex"/><xsl:text> </xsl:text>
+            </xsl:if>
+            <xsl:if test="exists(rinfIndex)">
+                <span><xsl:value-of select="rinfIndex"/><xsl:text> - </xsl:text></span>
+            </xsl:if>
+            <xsl:choose>
+                <xsl:when test="$anchor = ''">
+                    <a href="{.}" title="{.}" target="_blank">
+                        <xsl:value-of select="$label"/>
+                    </a>
+                </xsl:when>
+                <xsl:otherwise>
+                    <a href="#{$anchor}" title="{.}">
+                        <xsl:value-of select="$label"/>
+                    </a>
+                </xsl:otherwise>
+            </xsl:choose>                                
+            <xsl:call-template name="get.entity.type.descriptor">
+                <xsl:with-param name="iri" select="." as="xs:string"/>
+            </xsl:call-template>
+            <xsl:if test="exists(/rdf:RDF/(if ($type = 'property') then owl:DatatypeProperty | owl:ObjectProperty | rdf:Property else owl:AnnotationProperty)[some $res in rdfs:subPropertyOf/(@*:resource|(owl:Class|rdfs:Class)/@*:about) satisfies $res = $about]/(@*:about|@*:ID))">
+                <xsl:call-template name="get.era.subproperty.item"/>
+            </xsl:if>
+        </li>
     </xsl:template>
 
     <xsl:template name="get.era.subproperties.list">
@@ -1445,10 +1446,12 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                                 select="/rdf:RDF/(if ($type = 'property') then owl:DatatypeProperty | owl:ObjectProperty | rdf:Property else owl:AnnotationProperty)[some $res in rdfs:subPropertyOf/(@*:resource|(owl:Class|rdfs:Class)/@*:about) satisfies $res = $about]/(@*:about|@*:ID)"/>
                     <xsl:if test="exists($sub-properties)">
                         <dd>
-                            <xsl:for-each select="$sub-properties">
-                                <xsl:sort select="era:rinfIndex" data-type="text" order="ascending"/>
-                                <xsl:call-template name="get.era.subproperty.item"/>
-                            </xsl:for-each>
+                            <ul>
+                                <xsl:for-each select="$sub-properties">
+                                    <xsl:sort select="era:rinfIndex" data-type="text" order="ascending"/>
+                                    <xsl:call-template name="get.era.subproperty.item"/>
+                                </xsl:for-each>
+                            </ul>
                         </dd>
                     </xsl:if>
                 </dl>
@@ -2462,7 +2465,14 @@ http://www.oxygenxml.com/ns/doc/xsl ">
     <xsl:template name="get.era.entity.general">
         <xsl:if test="exists(era:rinfIndex | era:XMLName | rdfs:comment | era:legalDeadline)">
         <!-- General Information Section -->
-        <xsl:if test="exists(rdfs:comment)"><p><xsl:value-of select="rdfs:comment" disable-output-escaping="yes"/></p></xsl:if>
+        <xsl:if test="exists(rdfs:comment)">
+        <p>
+            <xsl:for-each select="tokenize(rdfs:comment, '\n')">
+                <xsl:value-of select="."/>
+                <br />
+            </xsl:for-each>
+        </p>
+        </xsl:if>
         <dl>
             <dt>General Information</dt>
             <dd>
@@ -2619,7 +2629,12 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             <dt>Additional Information</dt>
             <dd>
                 <dl>
-                    <xsl:if test="exists(skos:scopeNote)"><dt><span>General explanation:</span></dt><dd> <xsl:value-of select="skos:scopeNote" disable-output-escaping="yes"/></dd></xsl:if>
+                    <xsl:if test="exists(skos:scopeNote)"><dt><span>General explanation:</span></dt><dd> 
+                        <xsl:for-each select="tokenize(skos:scopeNote, '\n')">
+                            <xsl:value-of select="."/>
+                            <br />
+                        </xsl:for-each></dd>
+                    </xsl:if>
                     <dt><span>Examples:</span></dt>
                     <xsl:for-each select="vann:example | skos:example">
                             <xsl:choose>
