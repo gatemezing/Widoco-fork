@@ -1429,7 +1429,9 @@ http://www.oxygenxml.com/ns/doc/xsl ">
         <xsl:call-template name="get.entity.type.descriptor">
             <xsl:with-param name="iri" select="." as="xs:string"/>
         </xsl:call-template>
-        <xsl:call-template name="get.era.subproperties.list"/>
+        <xsl:if test="exists(/rdf:RDF/*[rdfs:subPropertyOf/@rdf:resource = current()/@rdf:about])">
+            <xsl:call-template name="get.era.subproperties.list"/>
+        </xsl:if>
     </xsl:template>
 
     <xsl:template name="get.era.subproperties.list">
