@@ -1407,6 +1407,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
 
         <xsl:variable name="anchor" select="f:findEntityId(.,$type)" as="xs:string"/>
         <xsl:variable name="label" select="f:getLabel(.)" as="xs:string"/>
+
         <li>
             <xsl:if test="exists(era:rinfIndex)">
                 <xsl:value-of select="era:rinfIndex"/><xsl:text> </xsl:text>
@@ -1433,6 +1434,33 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                 <xsl:call-template name="get.era.subproperty.item"/>
             </xsl:if>
         </li>
+
+        
+        <xsl:if test="exists(era:rinfIndex)">
+            <xsl:value-of select="era:rinfIndex"/><xsl:text> </xsl:text>
+        </xsl:if>
+        <xsl:if test="exists(rinfIndex)">
+            <span><xsl:value-of select="rinfIndex"/><xsl:text> - </xsl:text></span>
+        </xsl:if>
+        <xsl:choose>
+            <xsl:when test="$anchor = ''">
+                <a href="{.}" title="{.}" target="_blank">
+                    <xsl:value-of select="$label"/>
+                </a>
+            </xsl:when>
+            <xsl:otherwise>
+                <a href="#{$anchor}" title="{.}">
+                    <xsl:value-of select="$label"/>
+                </a>
+            </xsl:otherwise>
+        </xsl:choose>                                
+        <xsl:call-template name="get.entity.type.descriptor">
+            <xsl:with-param name="iri" select="." as="xs:string"/>
+        </xsl:call-template>        
+        <xsl:if test="exists(f:hasSubproperties(.))">
+            <xsl:call-template name="get.era.subproperties.list"/>
+        </xsl:if>
+
     </xsl:template>
 
     <xsl:template name="get.era.subproperties.list">
