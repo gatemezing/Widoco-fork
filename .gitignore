@@ -224,3 +224,4 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
+src/main/resources/lode/extraction-withIssues.xsl
