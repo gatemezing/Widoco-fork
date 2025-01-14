@@ -41,9 +41,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
                 xmlns:widoco="https://w3id.org/widoco/vocab#"
                 xmlns:era="http://data.europa.eu/949/"
                 xmlns:sh="http://www.w3.org/ns/shacl#"
-                xmlns="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://www.oxygenxml.com/ns/doc/xsl
-http://www.oxygenxml.com/ns/doc/xsl ">
+                xmlns="http://www.w3.org/1999/xhtml">
 
     <xsl:include href="swrl-module.xsl"/>
     <xsl:include href="common-functions.xsl"/>
@@ -191,10 +189,15 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                 <xsl:apply-templates select="dc:rights|dcterms:rights"/>
             </div>
             <hr/>
+            <!-- Abstract -->
             <xsl:apply-templates select="rdfs:comment" mode="ontology"/>
+            <!-- Table of contents -->
             <xsl:call-template name="get.toc"/>
+            <!-- 1. Introduction -->
             <xsl:apply-templates select="dc:description[normalize-space() != ''] , dc:description[@*:resource]"
                                  mode="ontology"/>
+            <xsl:call-template name="get.era.rinfobjectproperties"/>
+            <xsl:call-template name="get.era.rinfdataproperties"/>
             <xsl:call-template name="get.classes"/>
             <xsl:call-template name="get.objectproperties"/>
             <xsl:call-template name="get.dataproperties"/>
@@ -203,6 +206,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             <xsl:call-template name="get.annotationproperties"/>
             <xsl:call-template name="get.generalaxioms"/>
             <xsl:call-template name="get.swrlrules"/>
+            <!-- 1.1 Namespace declarations -->
             <xsl:call-template name="get.namespacedeclarations"/>
 
             <p class="endnote">
@@ -220,6 +224,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
         <xsl:call-template name="structure"/>
     </xsl:template>
 
+    <!--Template for the paragraph 1. Introduction -->
     <xsl:template match="dc:description[f:isInLanguage(.)][normalize-space() != '']" mode="ontology">
         <h2 id="introduction">
             <xsl:value-of select="f:getDescriptionLabel('introduction')"/>
@@ -1975,14 +1980,6 @@ http://www.oxygenxml.com/ns/doc/xsl ">
         </ul>
     </xsl:template>
 
-    <xsl:template name="get.era.rinfobjectproperties">
-    <div id="RINFObjectProperties"></div>
-    </xsl:template>
-
-    <xsl:template name="get.era.rinfdataproperties">
-    <div id="RINFDataProperties"></div>
-    </xsl:template>
-
     <xsl:template name="get.objectproperties">
         <xsl:if test="exists(//owl:ObjectProperty/element())">
             <div id="objectproperties">
@@ -2669,22 +2666,24 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                             <br />
                         </xsl:for-each></dd>
                     </xsl:if>
-                    <dt><span>Examples:</span></dt>
-                    <xsl:for-each select="vann:example | skos:example">
-                            <xsl:choose>
-                                <xsl:when test="normalize-space(@*:resource) = ''">
-                                    <code>
-                                        <xsl:value-of select="text()" disable-output-escaping="yes"/>
-                                    </code>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <a href="{@*:resource}">
-                                        <xsl:value-of select="@*:resource" disable-output-escaping="yes"/>
-                                    </a>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                    </xsl:for-each>
-                </dl>
+                    <xsl:if test="exists(vann:example | skos:example )">
+                      <dt><span>Examples:</span></dt>
+                      <xsl:for-each select="vann:example | skos:example">
+                              <xsl:choose>
+                                  <xsl:when test="normalize-space(@*:resource) = ''">
+                                      <code>
+                                          <xsl:value-of select="text()" disable-output-escaping="yes"/>
+                                      </code>
+                                  </xsl:when>
+                                  <xsl:otherwise>
+                                      <a href="{@*:resource}">
+                                          <xsl:value-of select="@*:resource" disable-output-escaping="yes"/>
+                                      </a>
+                                  </xsl:otherwise>
+                              </xsl:choose>
+                      </xsl:for-each>
+                    </xsl:if>
+                  </dl>
             </dd>
         </dl>
         </xsl:if>
@@ -2887,4 +2886,35 @@ http://www.oxygenxml.com/ns/doc/xsl ">
         </ul>
     </xsl:template>
 
+  <xsl:template name="get.era.rinfobjectproperties">
+    <div id="RINFObjectProperties">
+      <xsl:apply-templates select="//owl:ObjectProperty[@rdf:about='http://data.europa.eu/949/RINFTechnicalObjectCharacteristic']" mode="toc"/>
+    </div>
+  </xsl:template>
+
+  <xsl:template name="get.era.rinfdataproperties">
+    <div id="RINFDataProperties">
+      <xsl:apply-templates select="//owl:DatatypeProperty[@rdf:about='http://data.europa.eu/949/RINFTechnicalDataCharacteristic']" mode="toc"/>
+    </div>
+  </xsl:template>
+
+  <!-- TOC Template: Create TOC entries for ObjectProperties, sorted by era:rinfIndex -->
+  <xsl:template match="owl:ObjectProperty|owl:DatatypeProperty" mode="toc">
+    <xsl:variable name="subProperties" select="/rdf:RDF/(owl:ObjectProperty|owl:DatatypeProperty)[rdfs:subPropertyOf/@rdf:resource = current()/@rdf:about]"/>
+    <!-- <xsl:sort select="era:rinfIndex" data-type="text" order="ascending"/> -->
+    <li>
+      <a href="{@rdf:about}">
+        <xsl:if test="era:rinfIndex">
+          <xsl:value-of select="era:rinfIndex"/> -
+        </xsl:if>
+        <xsl:value-of select="rdfs:label"/>
+      </a>
+      <xsl:if test="count($subProperties) > 0">
+        <ul>
+          <xsl:apply-templates select="$subProperties" mode="toc"/>
+        </ul>
+      </xsl:if>
+    </li>
+  </xsl:template>
+ 
 </xsl:stylesheet>
