@@ -1431,10 +1431,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
             <xsl:call-template name="get.entity.type.descriptor">
                 <xsl:with-param name="iri" select="." as="xs:string"/>
             </xsl:call-template>
-            <xsl:variable name="about" select="(@*:about|@*:ID)" as="xs:string"/>
-            <xsl:variable name="sub-properties" as="attribute()*"
-                        select="/rdf:RDF/(if ($type = 'property') then owl:DatatypeProperty | owl:ObjectProperty | rdf:Property else owl:AnnotationProperty)[some $res in rdfs:subPropertyOf/(@*:resource|(owl:Class|rdfs:Class)/@*:about) satisfies $res = $about]/(@*:about|@*:ID)"/>
-            <xsl:if test="exists($sub-properties)">
+            <xsl:variable name="sub-properties" select="/rdf:RDF/(owl:ObjectProperty | owl:DatatypeProperty)[rdfs:subPropertyOf/@rdf:resource = current()/@rdf:about]"/>
+            <xsl:if test="count($sub-properties) > 0">
                 <xsl:call-template name="get.era.subproperties.list"/>
             </xsl:if>
         </li>
@@ -1442,10 +1440,8 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
     <xsl:template name="get.era.subproperties.list">
         <xsl:variable name="type" select="if (self::owl:AnnotationProperty) then 'annotation' else 'property'" as="xs:string"/>
-        <xsl:variable name="about" select="(@*:about|@*:ID)" as="xs:string"/>
-        <xsl:variable name="sub-properties" as="attribute()*"
-                      select="/rdf:RDF/(if ($type = 'property') then owl:DatatypeProperty | owl:ObjectProperty | rdf:Property else owl:AnnotationProperty)[some $res in rdfs:subPropertyOf/(@*:resource|(owl:Class|rdfs:Class)/@*:about) satisfies $res = $about]/(@*:about|@*:ID)"/>
-        <xsl:if test="f:hasSubproperties(.)">
+        <xsl:variable name="sub-properties" select="/rdf:RDF/(owl:ObjectProperty | owl:DatatypeProperty)[rdfs:subPropertyOf/@rdf:resource = current()/@rdf:about]"/>
+        <xsl:if test="count($sub-properties) > 0">
             <ul>
                 <xsl:for-each select="$sub-properties">
                     <xsl:sort select="era:rinfIndex" data-type="text" order="ascending"/>
